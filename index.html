@@ -1,0 +1,3009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ministry of Ayush - National Academia-Industry Skill Hub</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React 18 & ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Babel Standalone for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sihNavy: '#0c2340',
+            sihBlue: '#1e3a5f',
+            sihEmerald: '#059669',
+            sihTeal: '#0d9488',
+            sihCyan: '#0284c7',
+            sihIndigo: '#4f46e5',
+            sihViolet: '#7c3aed',
+            sihAmber: '#d97706',
+            sihRose: '#e11d48',
+            sihSaffron: '#ea580c'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          animation: {
+            fadeIn: 'fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            floatSlow: 'floatSlow 9s ease-in-out infinite',
+            floatReverse: 'floatReverse 11s ease-in-out infinite',
+            pulseSoft: 'pulseSoft 4s ease-in-out infinite',
+            leafSway: 'leafSway 7s ease-in-out infinite',
+            orbitSpin: 'orbitSpin 20s linear infinite',
+            pulseFast: 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            bounceSlow: 'bounceSlow 6s ease-in-out infinite'
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: 0, transform: 'translateY(4px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            },
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-18px) rotate(4deg)' }
+            },
+            floatReverse: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(16px) rotate(-4deg)' }
+            },
+            pulseSoft: {
+              '0%, 100%': { opacity: 0.2, transform: 'scale(1)' },
+              '50%': { opacity: 0.38, transform: 'scale(1.08)' }
+            },
+            leafSway: {
+              '0%, 100%': { transform: 'rotate(-5deg) translateY(0)' },
+              '50%': { transform: 'rotate(7deg) translateY(-10px)' }
+            },
+            orbitSpin: {
+              '0%': { transform: 'rotate(0deg)' },
+              '100%': { transform: 'rotate(360deg)' }
+            },
+            bounceSlow: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-12px)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    .sih-card-hover {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sih-card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 25px -5px rgba(12, 35, 64, 0.1), 0 8px 10px -6px rgba(12, 35, 64, 0.05);
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-100/80 min-h-screen flex flex-col antialiased selection:bg-emerald-700 selection:text-white relative overflow-x-hidden">
+  <div id="root" class="relative z-10 flex-1 flex flex-col"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useEffect, useRef } = React;
+
+    // --- OFFICIAL ICONS ---
+    const IconAyushHub = ({ className = "w-8 h-8" }) => (
+      <svg className={className} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 10 L102.5 34.5 L102.5 83.5 L60 108 L17.5 83.5 L17.5 34.5 Z" fill="#0c2340" stroke="#0c2340" strokeWidth="4" strokeLinejoin="round"/>
+        <path d="M35 40 L28 40 M28 40 L25 45 M35 50 L25 50 M35 60 L28 60 L25 55 M35 70 L28 70" stroke="#0284c7" strokeWidth="2.5" strokeLinecap="round"/>
+        <circle cx="25" cy="45" r="2" fill="#0284c7"/>
+        <circle cx="25" cy="55" r="2" fill="#0284c7"/>
+        <circle cx="28" cy="70" r="2" fill="#0284c7"/>
+        <path d="M85 40 L92 40 M92 40 L95 45 M85 50 L95 50 M85 60 L92 60 L95 55 M85 70 L92 70" stroke="#0284c7" strokeWidth="2.5" strokeLinecap="round"/>
+        <circle cx="95" cy="45" r="2" fill="#0284c7"/>
+        <circle cx="95" cy="55" r="2" fill="#0284c7"/>
+        <circle cx="92" cy="70" r="2" fill="#0284c7"/>
+        <line x1="60" y1="18" x2="60" y2="24" stroke="#d97706" strokeWidth="3" strokeLinecap="round"/>
+        <line x1="45" y1="21" x2="48" y2="26" stroke="#d97706" strokeWidth="3" strokeLinecap="round"/>
+        <line x1="75" y1="21" x2="72" y2="26" stroke="#d97706" strokeWidth="3" strokeLinecap="round"/>
+        <path d="M60 28 C47 28 38 37 38 50 C38 60 48 68 53 74 L53 82 L67 82 L67 74 C72 68 82 60 82 50 C82 37 73 28 60 28 Z" fill="url(#bulbGrad)" />
+        <defs>
+          <linearGradient id="bulbGrad" x1="38" y1="28" x2="82" y2="82" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#fbbf24"/>
+            <stop offset="1" stop-color="#ea580c"/>
+          </linearGradient>
+        </defs>
+        <path d="M54 52 C54 48 57 45 60 45 C63 45 66 48 66 52 C66 56 60 58 60 62" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M67 55 C72 55 77 62 72 72 C68 80 58 84 53 84 C53 84 62 76 64 68 C66 60 67 55 67 55 Z" fill="#059669"/>
+        <path d="M60 70 C63 67 66 63 70 59" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
+        <path d="M53 86 L67 86 M54 90 L66 90 M55 94 L65 94" stroke="#059669" strokeWidth="3" strokeLinecap="round"/>
+        <path d="M58 98 L62 98" stroke="#059669" strokeWidth="3" strokeLinecap="round"/>
+        <circle cx="60" cy="101" r="2" fill="#059669"/>
+      </svg>
+    );
+
+    // Official National Emblem of India SVG Logo
+    const NationalEmblem = ({ className = "w-7 h-7" }) => (
+      <svg className={className} viewBox="0 0 100 120" fill="currentColor">
+        <path d="M50 5 C44 5 39 10 39 16 C39 20 42 23 45 25 L45 35 C38 35 32 41 32 48 L32 55 C32 62 38 68 45 68 L47 70 L47 85 C47 90 43 94 38 94 L35 94 L35 102 L65 102 L65 94 L62 94 C57 94 53 90 53 85 L53 70 L55 68 C62 68 68 62 68 55 L68 48 C68 41 62 35 55 35 L55 25 C58 23 61 20 61 16 C61 10 56 5 50 5 Z" fill="#b45309" />
+        <circle cx="50" cy="16" r="6" fill="#fff" />
+        <rect x="25" y="105" width="50" height="6" rx="2" fill="#0c2340" />
+      </svg>
+    );
+
+    const IconCheck = ({ className = "w-4 h-4" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+      </svg>
+    );
+
+    const IconSearch = ({ className = "w-4 h-4" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    );
+
+    const IconMap = ({ className = "w-3.5 h-3.5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <circle cx="12" cy="11" r="3" strokeWidth={2} />
+      </svg>
+    );
+
+    const IconBriefcase = ({ className = "w-3.5 h-3.5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" strokeWidth="2"/>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" strokeWidth="2"/>
+      </svg>
+    );
+
+    const IconDocument = ({ className = "w-3.5 h-3.5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" strokeWidth="2"/>
+        <polyline points="14 2 14 8 20 8" strokeWidth="2"/>
+        <line x1="16" y1="13" x2="8" y2="13" strokeWidth="2"/>
+        <line x1="16" y1="17" x2="8" y2="17" strokeWidth="2"/>
+      </svg>
+    );
+
+    const IconAward = ({ className = "w-3.5 h-3.5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="8" r="7" strokeWidth="2"/>
+        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" strokeWidth="2"/>
+      </svg>
+    );
+
+    const IconUsers = ({ className = "w-3.5 h-3.5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeWidth="2"/>
+        <circle cx="9" cy="7" r="4" strokeWidth="2"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" strokeWidth="2"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" strokeWidth="2"/>
+      </svg>
+    );
+
+    const IconChart = ({ className = "w-3.5 h-3.5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <line x1="18" y1="20" x2="18" y2="10" strokeWidth="2"/>
+        <line x1="12" y1="20" x2="12" y2="4" strokeWidth="2"/>
+        <line x1="6" y1="20" x2="6" y2="14" strokeWidth="2"/>
+      </svg>
+    );
+
+    const IconBuilding = ({ className = "w-3.5 h-3.5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="4" y="2" width="16" height="20" rx="2" strokeWidth="2"/>
+        <line x1="9" y1="22" x2="9" y2="12" strokeWidth="2"/>
+        <line x1="15" y1="22" x2="15" y2="12" strokeWidth="2"/>
+      </svg>
+    );
+
+    // =========================================================================
+    // DYNAMIC UNIQUE BACKGROUND ANIMATIONS FOR EACH TOP NAV PAGE
+    // =========================================================================
+    function DynamicPageBackground({ topPage, currentRole }) {
+      if (currentRole) {
+        return <AyushBackgroundArt currentRole={currentRole} />;
+      }
+
+      return (
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none">
+          {topPage === 'home' && (
+            <>
+              <div className="absolute -top-32 -left-32 w-96 h-96 bg-emerald-300/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute top-1/3 -right-32 w-96 h-96 bg-amber-300/20 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '2s' }}></div>
+              <svg className="absolute top-28 left-6 w-28 h-28 text-emerald-600/20 animate-leafSway" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M50 5 C25 25 15 55 25 85 C55 95 85 85 95 50 C95 20 75 5 50 5 Z" />
+              </svg>
+              <svg className="absolute bottom-16 right-16 w-32 h-32 text-amber-600/15 animate-floatSlow" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <circle cx="50" cy="50" r="40" strokeWidth="3" strokeDasharray="8 8" />
+              </svg>
+            </>
+          )}
+
+          {topPage === 'about' && (
+            <>
+              <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-teal-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute bottom-10 right-10 w-96 h-96 bg-emerald-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '3s' }}></div>
+              <svg className="absolute top-32 right-12 w-40 h-40 text-teal-600/20 animate-orbitSpin" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <circle cx="50" cy="50" r="40" strokeWidth="2" strokeDasharray="6 6" />
+                <circle cx="50" cy="50" r="25" strokeWidth="2" />
+              </svg>
+              <svg className="absolute bottom-24 left-12 w-28 h-28 text-emerald-600/20 animate-floatReverse" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <polygon points="50,10 90,90 10,90" strokeWidth="2.5" />
+              </svg>
+            </>
+          )}
+
+          {topPage === 'guidelines' && (
+            <>
+              <div className="absolute bottom-10 left-10 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute top-20 right-20 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '1.5s' }}></div>
+              <svg className="absolute top-1/3 right-20 w-36 h-36 text-indigo-600/20 animate-floatSlow" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <rect x="20" y="20" width="60" height="70" rx="4" strokeWidth="3" />
+                <line x1="30" y1="35" x2="70" y2="35" strokeWidth="3" />
+                <line x1="30" y1="50" x2="70" y2="50" strokeWidth="3" />
+              </svg>
+              <svg className="absolute bottom-16 left-1/3 w-28 h-28 text-blue-600/20 animate-bounceSlow" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <circle cx="50" cy="50" r="35" strokeWidth="2.5" />
+                <path d="M35 50 L45 60 L65 40" strokeWidth="3" />
+              </svg>
+            </>
+          )}
+
+          {topPage === 'vacancies' && (
+            <>
+              <div className="absolute top-10 right-10 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute bottom-10 left-10 w-96 h-96 bg-orange-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '2s' }}></div>
+              <svg className="absolute bottom-1/4 left-16 w-36 h-36 text-amber-600/20 animate-floatReverse" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <rect x="15" y="30" width="70" height="50" rx="4" strokeWidth="3" />
+                <path d="M35 30 L35 20 C35 15 65 15 65 20 L65 30" strokeWidth="3" />
+              </svg>
+              <svg className="absolute top-24 right-1/3 w-28 h-28 text-orange-600/20 animate-pulseFast" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <circle cx="50" cy="50" r="30" strokeWidth="3" />
+                <line x1="50" y1="20" x2="50" y2="80" strokeWidth="3" />
+              </svg>
+            </>
+          )}
+
+          {topPage === 'implementation' && (
+            <>
+              <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-sky-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute bottom-10 right-10 w-96 h-96 bg-cyan-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '2.5s' }}></div>
+              <svg className="absolute top-24 right-10 w-36 h-36 text-sky-600/20 animate-orbitSpin" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <polygon points="50,10 90,90 10,90" strokeWidth="3" />
+              </svg>
+              <svg className="absolute bottom-20 left-12 w-32 h-32 text-cyan-600/20 animate-floatSlow" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <circle cx="50" cy="50" r="35" strokeWidth="2.5" strokeDasharray="5 5" />
+              </svg>
+            </>
+          )}
+
+          {topPage === 'faqs' && (
+            <>
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute top-10 left-10 w-96 h-96 bg-purple-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '1.8s' }}></div>
+              <svg className="absolute top-28 left-12 w-36 h-36 text-violet-600/20 animate-floatSlow" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <circle cx="50" cy="50" r="40" strokeWidth="3" />
+                <path d="M35 40 C35 30 65 30 65 45 C65 55 50 55 50 65" strokeWidth="3" />
+                <circle cx="50" cy="80" r="3" fill="currentColor" />
+              </svg>
+              <svg className="absolute bottom-16 right-1/4 w-28 h-28 text-purple-600/20 animate-bounceSlow" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <path d="M20 50 Q 50 20 80 50 Q 50 80 20 50 Z" strokeWidth="3" />
+              </svg>
+            </>
+          )}
+
+          {topPage === 'contact' && (
+            <>
+              <div className="absolute top-16 left-1/4 w-96 h-96 bg-rose-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '2.2s' }}></div>
+              <svg className="absolute bottom-20 right-16 w-36 h-36 text-rose-600/20 animate-floatReverse" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <rect x="15" y="25" width="70" height="50" rx="6" strokeWidth="3" />
+                <path d="M15 35 L50 60 L85 35" strokeWidth="3" />
+              </svg>
+              <svg className="absolute top-24 left-16 w-28 h-28 text-pink-600/20 animate-pulseFast" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <circle cx="50" cy="50" r="35" strokeWidth="3" />
+                <path d="M50 30 L50 50 L65 60" strokeWidth="3" />
+              </svg>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    function AyushBackgroundArt({ currentRole }) {
+      const isStudent = currentRole === 'student';
+      const isFaculty = currentRole === 'faculty';
+      const isInstitution = currentRole === 'institution';
+      const isRecruiter = currentRole === 'recruiter';
+
+      return (
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none">
+          {isStudent && (
+            <>
+              <div className="absolute top-20 right-10 w-[400px] h-[400px] bg-emerald-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute bottom-10 left-10 w-96 h-96 bg-teal-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '2s' }}></div>
+              <svg className="absolute top-1/3 left-16 w-32 h-32 text-emerald-600/20 animate-floatSlow" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <path d="M10 50 L50 30 L90 50 L50 70 Z" strokeWidth="3" />
+              </svg>
+            </>
+          )}
+          {isFaculty && (
+            <>
+              <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '1.5s' }}></div>
+              <svg className="absolute top-20 right-20 w-36 h-36 text-indigo-600/20 animate-orbitSpin" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <circle cx="50" cy="50" r="35" strokeWidth="2" strokeDasharray="6 6" />
+              </svg>
+            </>
+          )}
+          {isInstitution && (
+            <>
+              <div className="absolute bottom-10 right-20 w-[450px] h-[450px] bg-amber-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute top-10 left-10 w-96 h-96 bg-orange-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '2s' }}></div>
+              <svg className="absolute top-1/3 left-20 w-32 h-32 text-amber-600/20 animate-floatSlow" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <rect x="20" y="20" width="60" height="60" strokeWidth="3" />
+              </svg>
+            </>
+          )}
+          {isRecruiter && (
+            <>
+              <div className="absolute top-20 left-1/4 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl animate-pulseSoft"></div>
+              <div className="absolute bottom-10 right-10 w-96 h-96 bg-sky-400/15 rounded-full blur-3xl animate-pulseSoft" style={{ animationDelay: '1.8s' }}></div>
+              <svg className="absolute bottom-20 right-20 w-36 h-36 text-cyan-600/20 animate-floatReverse" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                <rect x="15" y="30" width="70" height="50" rx="6" strokeWidth="3" />
+              </svg>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // GRAPHICAL DATA VISUALIZATION
+    // =========================================================================
+    function GraphicalDashboardCharts({ jobs, candidates, userProfile }) {
+      const streamStats = [
+        { name: 'Ayurveda', jobs: 380, students: 68, color: 'bg-emerald-600', textColor: 'text-emerald-700', pct: 85 },
+        { name: 'Homeopathy', jobs: 240, students: 48, color: 'bg-sky-600', textColor: 'text-sky-700', pct: 65 },
+        { name: 'Yoga/Naturopathy', jobs: 180, students: 34, color: 'bg-amber-600', textColor: 'text-amber-700', pct: 50 },
+        { name: 'Unani', jobs: 110, students: 28, color: 'bg-teal-600', textColor: 'text-teal-700', pct: 35 },
+        { name: 'Siddha', jobs: 90, students: 22, color: 'bg-indigo-600', textColor: 'text-indigo-700', pct: 28 }
+      ];
+
+      return (
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-100 pb-3">
+            <div>
+              <div className="flex items-center space-x-2">
+                <IconChart className="w-4 h-4 text-emerald-700" />
+                <h4 className="text-xs font-black uppercase text-slate-900 tracking-wider">Ayush Sector Live Data Analytics &amp; Hiring Distribution</h4>
+              </div>
+              <p className="text-[11px] text-slate-500">Real-time demand vs. certified graduates across all 5 traditional medicine disciplines</p>
+            </div>
+            <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded border border-slate-200">
+              National Index 2026
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-1">
+            <div className="space-y-2.5 md:col-span-2">
+              <span className="text-[11px] font-extrabold uppercase text-slate-700 tracking-wide block">Discipline Vacancy Capacity (Bar Chart)</span>
+              {streamStats.map(s => (
+                <div key={s.name} className="space-y-1">
+                  <div className="flex justify-between text-xs">
+                    <span className="font-bold text-slate-800">{s.name}</span>
+                    <span className="font-mono text-slate-500 font-semibold">{s.jobs} Vacancies &bull; {s.students} Scholars</span>
+                  </div>
+                  <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden flex">
+                    <div className={`${s.color} h-full rounded-full transition-all duration-700`} style={{ width: `${s.pct}%` }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col items-center justify-center p-4 bg-slate-50/80 rounded-xl border border-slate-200 gap-3 text-center">
+              <div className="relative w-28 h-28 flex items-center justify-center">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path className="text-slate-200" strokeWidth="3.8" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path className="text-emerald-600" strokeDasharray="91, 100" strokeWidth="3.8" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div className="absolute text-center">
+                  <span className="text-lg font-black text-slate-900 block leading-none">91.4%</span>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase">Absorption</span>
+                </div>
+              </div>
+              <span className="text-[11px] font-semibold text-slate-600">Overall Corporate Absorption Rate</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // DOMAIN METADATA
+    // =========================================================================
+    const STREAMS = [
+      'Ayurveda (BAMS)',
+      'Homeopathy (BHMS)',
+      'Yoga & Naturopathy (BNYS)',
+      'Unani (BUMS)',
+      'Siddha (BSMS)'
+    ];
+
+    const STREAM_COLORS = {
+      'Ayurveda (BAMS)': { bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-300' },
+      'Homeopathy (BHMS)': { bg: 'bg-sky-50', text: 'text-sky-800', border: 'border-sky-300' },
+      'Yoga & Naturopathy (BNYS)': { bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-300' },
+      'Unani (BUMS)': { bg: 'bg-teal-50', text: 'text-teal-800', border: 'border-teal-300' },
+      'Siddha (BSMS)': { bg: 'bg-indigo-50', text: 'text-indigo-800', border: 'border-indigo-300' }
+    };
+
+    const STREAM_SKILLS = {
+      'Ayurveda (BAMS)': ['Panchakarma Protocol', 'Nadi Pariksha', 'Marma Chikitsa', 'Rasashastra Standardisation', 'Dravyaguna Profiling'],
+      'Homeopathy (BHMS)': ['Materia Medica', 'Repertorization', 'Constitutional Prescribing', 'Organon Philosophy', 'Homeopathic Pharmacy'],
+      'Yoga & Naturopathy (BNYS)': ['Therapeutic Yoga', 'Hydrotherapy & Mud Pack', 'Acupressure & Reflexology', 'Autonomic Biofeedback', 'Clinical Dietetics'],
+      'Unani (BUMS)': ['Ilaj-bit-Tadbeer (Regimenal)', 'Herbal Standardisation', 'Kulliyat Diagnostic', 'Moalajat Therapeutics', 'Phytochemistry'],
+      'Siddha (BSMS)': ['Siddha Pharmacology', 'Gunapadam Research', 'Varma Chikitsa', 'Envagai Thervu (Pulse)', 'Herbomineral Processing']
+    };
+
+    const ENTERPRISES = [
+      { name: 'Dabur Research Foundation', hq: 'Sahibabad Hub, NCR', type: 'Phytopharmaceuticals' },
+      { name: 'Himalaya Wellness Co.', hq: 'Bengaluru, KA', type: 'Botanical Formulations' },
+      { name: 'Patanjali Research Institute', hq: 'Haridwar, UK', type: 'Integrative Biomedicine' },
+      { name: 'Baidyanath Pharmaceuticals', hq: 'Kolkata, WB', type: 'Classical Rasashastra' },
+      { name: 'Kerala Ayurveda Ltd', hq: 'Aluva, Kerala', type: 'Panchakarma Hospital Net' },
+      { name: 'Charak Pharma', hq: 'Mumbai, MH', type: 'Standardized Extractives' },
+      { name: 'Hamdard Laboratories', hq: 'New Delhi, DL', type: 'Unani Formulations' },
+      { name: 'Vicco Laboratories', hq: 'Nagpur, MH', type: 'Ayush Cosmeceuticals' }
+    ];
+
+    const LOCATIONS = [
+      'Delhi NCR', 'Bengaluru, KA', 'Haridwar, UK', 'Kolkata, WB',
+      'Kochi / Aluva, KL', 'Mumbai, MH', 'Chennai, TN', 'Ahmedabad, GJ'
+    ];
+
+    const INSTITUTIONS_LIST = [
+      'All India Institute of Ayurveda (AIIA), New Delhi',
+      'National Institute of Homoeopathy (NIH), Kolkata',
+      'National Institute of Unani Medicine (NIUM), Bengaluru',
+      'National Institute of Siddha (NIS), Chennai',
+      'National Institute of Naturopathy (NIN), Pune',
+      'Institute of Teaching & Research in Ayurveda (ITRA), Jamnagar'
+    ];
+
+    const CANDIDATE_NAMES = [
+      'Dr. Aarav Sharma', 'Dr. Pooja Iyer', 'Dr. Tariq Khan', 'Dr. Ananya Deshmukh',
+      'Dr. Rohan Natarajan', 'Dr. Meera Nambiar', 'Dr. Zainab Fatima', 'Dr. Siddharth Varma'
+    ];
+
+    const JOB_ROLES = [
+      'Quality Control & Analytical Officer',
+      'Clinical Trial Lead Associate',
+      'Formulations & Standardisation Scientist',
+      'Hospital Resident Medical Officer',
+      'Panchakarma Wellness Director',
+      'Pharmacovigilance Fellow'
+    ];
+
+    const JOB_PHOTOS = [
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=480&q=80',
+      'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=480&q=80',
+      'https://images.unsplash.com/photo-1512290900672-1a98ec5611b8?auto=format&fit=crop&w=480&q=80',
+      'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=480&q=80',
+      'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=480&q=80',
+      'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=480&q=80'
+    ];
+
+    const CANDIDATE_PHOTOS = [
+      'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=260&q=80',
+      'https://images.unsplash.com/photo-1594824813501-48c9735d648b?auto=format&fit=crop&w=260&q=80',
+      'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=260&q=80',
+      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=260&q=80'
+    ];
+
+    const GENERATED_STUDENTS = Array.from({ length: 200 }, (_, i) => {
+      const id = `cand-${i + 1}`;
+      const stream = STREAMS[i % STREAMS.length];
+      const baseName = CANDIDATE_NAMES[i % CANDIDATE_NAMES.length];
+      const name = `${baseName} (2026-${(i + 1).toString().padStart(3, '0')})`;
+      const pool = STREAM_SKILLS[stream];
+      const skills = [pool[0], pool[1], pool[(i + 2) % pool.length]];
+      const hours = 750 + ((i * 29) % 1100);
+      const cgpa = (7.6 + ((i * 4) % 23) / 10).toFixed(1);
+      const apaarId = `APAAR-${1000 + ((i * 37) % 8999)}-${2000 + ((i * 43) % 7999)}-${3000 + ((i * 19) % 6999)}`;
+      const institute = INSTITUTIONS_LIST[i % INSTITUTIONS_LIST.length];
+      const location = LOCATIONS[i % LOCATIONS.length];
+      const matchScore = 74 + ((i * 17) % 25);
+
+      return {
+        id,
+        name,
+        apaarId,
+        stream,
+        hours,
+        cgpa: `${cgpa}/10`,
+        institute,
+        location,
+        skills,
+        matchScore,
+        verified: true,
+        avatar: CANDIDATE_PHOTOS[i % CANDIDATE_PHOTOS.length]
+      };
+    });
+
+    const GENERATED_JOBS = Array.from({ length: 1000 }, (_, i) => {
+      const id = `job-${i + 1}`;
+      const stream = STREAMS[i % STREAMS.length];
+      const compObj = ENTERPRISES[i % ENTERPRISES.length];
+      const title = `${stream.split(' ')[0]} ${JOB_ROLES[i % JOB_ROLES.length]}`;
+      const loc = LOCATIONS[(i * 3) % LOCATIONS.length];
+      const stipendAmount = 38 + ((i * 7) % 45);
+      const stipend = `₹${stipendAmount},000 / mo`;
+      const type = ['Full-Time Placement', 'Clinical Residency', 'Industrial Internship', 'Govt Research Fellowship'][i % 4];
+      const pool = STREAM_SKILLS[stream];
+      const reqSkills = [pool[0], pool[(i + 1) % pool.length]];
+      const match = 75 + ((i * 13) % 24);
+
+      return {
+        id,
+        comp: compObj.name,
+        companyType: compObj.type,
+        title,
+        stream,
+        stipend,
+        loc,
+        type,
+        match,
+        skills: reqSkills,
+        hoursReq: 650 + ((i * 25) % 850),
+        postedDaysAgo: (i % 20) + 1,
+        img: JOB_PHOTOS[i % JOB_PHOTOS.length]
+      };
+    });
+
+    const FACULTY_OPPORTUNITIES = [
+      {
+        id: 'f1',
+        title: 'Industrial Sabbatical: Botanical Fingerprinting & HPTLC Standardisation',
+        company: 'Dabur Research Foundation',
+        type: 'Faculty Industry Fellowship (8 Weeks)',
+        stipend: '₹1,20,000 Honorarium',
+        location: 'Sahibabad Hub, NCR',
+        seats: '4 Fellows',
+        focus: 'Phytochemistry, Heavy Metal Profiling & GLP Compliance',
+        matchScore: 94,
+        img: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=480&q=80'
+      },
+      {
+        id: 'f2',
+        title: 'Sponsored Research Grant: Rasayana Immunomodulatory Biomarkers',
+        company: 'Patanjali Research Institute',
+        type: 'Collaborative Apex Lab Grant',
+        stipend: '₹18,50,000 Grant Corpus',
+        location: 'Haridwar, Uttarakhand',
+        seats: '3 Apex Labs',
+        focus: 'Metabolomics, Gut Microbiome Profiling & Preclinical Assays',
+        matchScore: 89,
+        img: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=480&q=80'
+      },
+      {
+        id: 'f3',
+        title: 'National FDP: Ayush Grid & Electronic Health Records Integration',
+        company: 'Himalaya Wellness Laboratories',
+        type: 'Faculty Development (14 Days)',
+        stipend: 'Fully Sponsored + TA/DA',
+        location: 'Bengaluru, Karnataka',
+        seats: '40 Professors',
+        focus: 'Standardized NAMASTE Portal Terminology & GCP Protocols',
+        matchScore: 83,
+        img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=480&q=80'
+      },
+      {
+        id: 'f4',
+        title: 'Preclinical Study: Varma Therapy Neurovascular Revascularization',
+        company: 'National Institute of Siddha (NIS)',
+        type: 'MoA Sponsored Research Grant',
+        stipend: '₹22,00,000 Research Grant',
+        location: 'Chennai, Tamil Nadu',
+        seats: '2 University Hubs',
+        focus: 'Electromyographic Biomechanics & Varma Pulse Points',
+        matchScore: 81,
+        img: 'https://images.unsplash.com/photo-1512290900672-1a98ec5611b8?auto=format&fit=crop&w=480&q=80'
+      }
+    ];
+
+    const ASSESSMENT_QUESTIONS = [
+      {
+        id: 1,
+        category: 'Diagnostic & Pulse Competency',
+        question: 'During Nadi Pariksha (Pulse Assessment), what clinical state is indicated when the pulse demonstrates a rapid, jumping movement (Manduka Gati)?',
+        options: [
+          'Aggravated Pitta Dosha localized in Raktavaha Srotas',
+          'Vitiated Vata Dosha in Pranavaha Srotas',
+          'Dominant Kapha Avarana with Ama formation',
+          'Tridosha Sama equilibrium state'
+        ],
+        correct: 0,
+        skillAwarded: 'Nadi Pariksha Protocol'
+      },
+      {
+        id: 2,
+        category: 'Phytochemistry & Quality Control',
+        question: 'Under Good Laboratory Practice (GLP), which standard analytical technique is mandated by the Ayurvedic Pharmacopoeia of India (API) for chromatographic fingerprinting of extractives?',
+        options: [
+          'High-Performance Thin Layer Chromatography (HPTLC)',
+          'Flame Photometry for alkali metals',
+          'Simple Acid-Base Titrimetric Assay',
+          'Agarose Gel Electrophoresis DNA Isolation'
+        ],
+        correct: 0,
+        skillAwarded: 'HPTLC Standardisation'
+      },
+      {
+        id: 3,
+        category: 'Clinical Empathy & Ethics',
+        question: 'A patient refuses to follow a 21-day classical Virechana regimen due to anxiety regarding acute dietary restrictions. What is the ideal practitioner response?',
+        options: [
+          'Provide Shamana alternatives, listen to dietary concerns, and collaboratively adapt a palliative plan',
+          'Refuse further consultation until classical protocol compliance is confirmed',
+          'Discharge without formal case sheet documentation',
+          'Administer internal oleation immediately without informed consent'
+        ],
+        correct: 0,
+        skillAwarded: 'Clinical Empathy'
+      }
+    ];
+
+    const STUDENT_FRESH_QUESTIONNAIRE = [
+      {
+        id: 'sq1',
+        category: 'Clinical Diagnostics',
+        question: 'During Nadi Pariksha (Pulse Assessment), which anatomical finger positioning and doshic movement reflects Pitta in its active seat?',
+        options: ['Middle finger detecting Manduka Gati (Frog jump movement)', 'Index finger detecting Sarpa Gati (Serpentine crawl)', 'Ring finger detecting Hamsa Gati (Swan float)', 'Little finger detecting Kapi Gati (Monkey movement)']
+      },
+      {
+        id: 'sq2',
+        category: 'Panchakarma Protocol',
+        question: 'What is the clinical assessment threshold indicating optimal Samyak Snigdha Lakshana before initiating Pradhana Karma in classical Virechana?',
+        options: ['Vatanulomana, Deeptagni, Asamhata Purisha, and Snigdha Purisha', 'Immediate onset of emesis within 4 hours', 'Severe hypovolemic hypotension requiring electrolytes', 'Complete cessation of sweating and dry tongue']
+      },
+      {
+        id: 'sq3',
+        category: 'Pharmacognosy & Extraction',
+        question: 'Under Good Laboratory Practice (GLP) protocols, which analytical method is mandatory for determining pesticide residue and heavy metal contamination in raw botanical extractives?',
+        options: ['Inductively Coupled Plasma Mass Spectrometry (ICP-MS) & GC-MS/MS', 'Simple macroscopic sensory organoleptic observation', 'Benedict quantitative reducing sugar titration', 'Boiling water solubility index']
+      },
+      {
+        id: 'sq4',
+        category: 'Emergency & Ethics',
+        question: 'When a patient on classical Rasayana therapy exhibits sudden acute epigastric burning with tachycardia, what is the immediate first-line clinical protocol?',
+        options: ['Immediate administration of cold milk/Ghruta Shamana, check vital signs, and audit Bhasma dosage', 'Discharge patient with verbal reassurance', 'Double the dosage of Rasayana formulation immediately', 'Perform spontaneous Sadyo Vamana without examination']
+      },
+      {
+        id: 'sq5',
+        category: 'Homeopathy & Repertorization',
+        question: 'According to Hahnemannian Organon §153, which symptoms guide the homeopath to the exact simillimum during repertorization?',
+        options: ['Striking, singular, uncommon and peculiar (characteristic) symptoms', 'Common diagnostic pathological tissue changes only', 'General routine complaints shared by all family members', 'Laboratory hematological normal ranges']
+      },
+      {
+        id: 'sq6',
+        category: 'Unani Ilaj-bit-Tadbeer',
+        question: 'What is the primary hemodynamic contraindication for Hijama Damwi (Wet Cupping) according to classical Unani clinical canon?',
+        options: ['Severe anemia (Hb < 8 g/dL), active bleeding diathesis, and extreme hypotension', 'Mild seasonal rhinitis without fever', 'Local muscular tension in trapezius', 'Chronic osteoarthritis in geriatric remit']
+      },
+      {
+        id: 'sq7',
+        category: 'Siddha Gunapadam',
+        question: 'In Siddha Gunapadam, what process ensures the detoxification (Suddhi) of poisonous botanical drugs like Nerium oleander (Arali)?',
+        options: ['Boiling in cow milk or buffalo urine followed by extensive water decantation', 'Direct sun-drying without washing', 'Simple pulverization in iron mortar', 'Alcohol precipitation assay']
+      },
+      {
+        id: 'sq8',
+        category: 'Yoga & Autonomic Biofeedback',
+        question: 'Which measurable autonomic neuro-cardiac marker best confirms parasympathetic dominance following 45 minutes of targeted Yoga Nidra and Shitali Pranayama?',
+        options: ['Increased Heart Rate Variability (HRV) High-Frequency (HF) power band', 'Spike in salivary alpha-amylase and cortisol', 'Elevation of diastolic blood pressure > 95 mmHg', 'Reduction in peripheral microvascular perfusion']
+      },
+      {
+        id: 'sq9',
+        category: 'Rasashastra Standardisation',
+        question: 'Which classical test (Bhasma Pariksha) confirms the complete absence of free unreacted metallic particles in finished Swarna Bhasma?',
+        options: ['Varitara (floats on water) and Apunarbhava (irreversible upon heating with Mitra Panchaka)', 'Solubility in strong hydrochloric acid', 'Magnetic adherence test', 'Color transformation to jet black']
+      },
+      {
+        id: 'sq10',
+        category: 'Clinical Research & GCP',
+        question: 'Under AYUSH GCP guidelines, what is mandatory prior to enrolling a patient in an open-label multicentric clinical trial?',
+        options: ['Institutional Ethics Committee (IEC) approved Informed Consent Form (ICF) in patient native language', 'Verbal agreement witnessed by hospital ward boy', 'Direct waiver from local pharmaceutical sponsor', 'Immediate case publication without consent']
+      },
+      {
+        id: 'sq11',
+        category: 'Digital Ayush Grid & EMR',
+        question: 'In the National Ayush Grid NAMASTE Portal, how are classical Ayurvedic diagnoses standardized for international interoperability?',
+        options: ['Mapped to ICD-11 Traditional Medicine Module 2 (TM-2) codes', 'Random handwritten text fields', 'Local vernacular dialect descriptions only', 'Generic western ICD-10 acute infection tags']
+      },
+      {
+        id: 'sq12',
+        category: 'Dietetics & Pathya',
+        question: 'For a patient diagnosed with Amavata (Rheumatoid Arthritis), which dietary recommendation complies with classical Pathya-Apathya rules?',
+        options: ['Yava (Barley), Kulattha (Horse gram), Sunthi (Dry ginger), and lukewarm water', 'Abundant cold curd, black gram (Masha), and heavy sweets', 'Deep-fried fast food with carbonated cold drinks', 'Strict water fasting for 30 continuous days']
+      },
+      {
+        id: 'sq13',
+        category: 'Pharmacovigilance',
+        question: 'When an unexpected Adverse Drug Reaction (ADR) occurs with a proprietary ASU medicine, what is the statutory reporting pathway?',
+        options: ['Submission of Form-A to the National Pharmacovigilance Centre (NPvC - AIIA New Delhi)', 'Emailing the retail chemist store clerk', 'Deleting the clinical record entry', 'Waiting for patient voluntary recovery']
+      },
+      {
+        id: 'sq14',
+        category: 'Hospital Resident Protocols',
+        question: 'During post-operative Shalya Tantra care, what is the therapeutic rationale for applying Ksharasutra in Bhagandara (Fistula-in-Ano)?',
+        options: ['Simultaneous mechanical cutting and chemical curettage promoting healthy granulation from the base', 'Immediate permanent surgical resection of anal sphincter', 'Temporary local analgesia lasting 1 hour', 'Thermal cauterization of cutaneous margin']
+      },
+      {
+        id: 'sq15',
+        category: 'Career Orientation',
+        question: 'What is your primary career trajectory over the next 24 months in the Ayush sector?',
+        options: ['Hospital Clinical Residency & In-Patient Clinical Practice', 'Pharmaceutical Quality Control, GLP Analysis & Analytical R&D', 'Government Academic Fellowship, Sabbatical & Sponsored PhD', 'Integrative Wellness Centers & Preventive Public Health']
+      }
+    ];
+
+    const DEFAULT_EXISTING_APPLICATIONS = [
+      {
+        id: 'app-101',
+        role: 'Ayurvedic Quality Control Specialist',
+        company: 'Dabur Research Foundation',
+        appliedOn: '01 Sep 2026',
+        currentStage: 3,
+        stages: ['Application Lodged', 'APAAR Logbook Audited', 'Technical Interview Scheduled', 'Final Offer']
+      },
+      {
+        id: 'app-102',
+        role: 'Panchakarma Clinical Director',
+        company: 'Kerala Ayurveda Ltd',
+        appliedOn: '28 Aug 2026',
+        currentStage: 2,
+        stages: ['Application Lodged', 'APAAR Logbook Audited', 'Hospital Round Interview', 'Residency Contract']
+      }
+    ];
+
+    // =========================================================================
+    // MAIN APP COMPONENT
+    // =========================================================================
+    function App() {
+      const [currentRole, setCurrentRole] = useState(null);
+      const [userProfile, setUserProfile] = useState(null);
+
+      // Onboarding & Questionnaire States
+      const [onboardingTarget, setOnboardingTarget] = useState(null);
+      const [credentialsData, setCredentialsData] = useState(null);
+      const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+
+      // Top Nav Interactive Page State
+      const [topNavPage, setTopNavPage] = useState('home');
+
+      // Carousel active slide (0 to 3 for 4 sliding images)
+      const [carouselIdx, setCarouselIdx] = useState(0);
+
+      const carouselSlides = [
+        {
+          quote: "Today, the world recognises India's strength in its youth power, and this is clearly visible in Ayush Skill Hub.",
+          leader: "Shri Narendra Modi",
+          title: "Prime Minister of India",
+          img: "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1600&q=80",
+          leaderImg: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=260&q=80"
+        },
+        {
+          quote: "Integrating traditional Ayurveda, Yoga, and Siddha with modern industrial research is the vision of our future workforce.",
+          leader: "Ministry of Ayush Directorate",
+          title: "Government of India",
+          img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80",
+          leaderImg: "https://images.unsplash.com/photo-1594824813501-48c9735d648b?auto=format&fit=crop&w=260&q=80"
+        },
+        {
+          quote: "APAAR ID digital logbooks ensure 100% transparent practical skill verification for every medical graduate across states.",
+          leader: "National Ayush Grid Board",
+          title: "Digital Health Infrastructure",
+          img: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1600&q=80",
+          leaderImg: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=260&q=80"
+        },
+        {
+          quote: "Bridging academia and premier pharmaceutical enterprises like Dabur, Himalaya, and Patanjali for nationwide placement.",
+          leader: "Industry Partnership Cell",
+          title: "National Skill Hub 2026",
+          img: "https://images.unsplash.com/photo-1512290900672-1a98ec5611b8?auto=format&fit=crop&w=1600&q=80",
+          leaderImg: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=260&q=80"
+        }
+      ];
+
+      // Auto-advance carousel every 6 seconds
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setCarouselIdx((prev) => (prev + 1) % carouselSlides.length);
+        }, 6000);
+        return () => clearInterval(timer);
+      }, [carouselSlides.length]);
+
+      // Subpage state per role
+      const [candidatePage, setCandidatePage] = useState('vacancies');
+      const [facultyPage, setFacultyPage] = useState('directory');
+      const [institutionPage, setInstitutionPage] = useState('audit');
+      const [recruiterPage, setRecruiterPage] = useState('directory');
+
+      // Datasets
+      const [jobs] = useState(GENERATED_JOBS);
+      const [candidates] = useState(GENERATED_STUDENTS);
+
+      const [appliedJobs, setAppliedJobs] = useState([]);
+      const [applications, setApplications] = useState([]);
+
+      const [appliedFacultyGrants, setAppliedFacultyGrants] = useState(['f1']);
+      const [signedStudents, setSignedStudents] = useState([]);
+      const [dispatchedInvites, setDispatchedInvites] = useState(['cand-1']);
+
+      const [facultyProposals, setFacultyProposals] = useState([
+        { id: 'prop-1', grantId: 'f1', grant: 'Botanical Fingerprinting & HPTLC Standardisation', org: 'Dabur Research Foundation', submittedOn: '20 Aug 2026', status: 'Under Peer Review' }
+      ]);
+
+      const [recruiterPipeline, setRecruiterPipeline] = useState([
+        { id: 'inv-1', candidateId: 'cand-1', candidate: 'Dr. Aarav Sharma', stream: 'Ayurveda (BAMS)', sentOn: '02 Sep 2026', status: 'Interview Confirmed' }
+      ]);
+
+      // Assessment test state
+      const [testAnswers, setTestAnswers] = useState({});
+      const [testSubmitted, setTestSubmitted] = useState(false);
+      const [assessmentScore, setAssessmentScore] = useState(null);
+
+      // Toast Notification System
+      const [toast, setToast] = useState(null);
+      const showToast = (msg) => {
+        setToast(msg);
+        setTimeout(() => setToast(null), 3200);
+      };
+
+      const handleCredentialSubmit = (roleKey, formData, loginType) => {
+        setCredentialsData(formData);
+        setOnboardingTarget(roleKey);
+
+        if (loginType === 'existing') {
+          setAppliedJobs(['job-1', 'job-5']);
+          setApplications(DEFAULT_EXISTING_APPLICATIONS);
+        } else {
+          setAppliedJobs([]);
+          setApplications([]);
+        }
+
+        if (roleKey === 'student' && loginType === 'fresh') {
+          setShowQuestionnaire(true);
+        } else {
+          const finalProfile = {
+            ...formData,
+            loginType: loginType,
+            evaluation: {
+              readinessScore: loginType === 'fresh' ? 80 : 91,
+              strengths: [
+                'APAAR Logbook audited with verified practicum credentials',
+                'Existing credential authenticated on National Ayush Grid'
+              ],
+              recommendedImprovements: [
+                'Complete mandatory electronic case sheets on Ayush Hospital EMR'
+              ]
+            }
+          };
+          setUserProfile(finalProfile);
+          setCurrentRole(roleKey);
+          setOnboardingTarget(null);
+          showToast(`Welcome ${formData.name}! (${loginType === 'fresh' ? 'Fresh Profile Initialized' : 'Existing Record Restored'})`);
+        }
+      };
+
+      const handleQuestionnaireComplete = (answers) => {
+        const answeredCount = Object.keys(answers).length;
+        const evalScore = Math.min(98, 70 + Math.round((answeredCount / STUDENT_FRESH_QUESTIONNAIRE.length) * 25));
+
+        const evalReport = {
+          readinessScore: evalScore,
+          strengths: [
+            `Comprehensive Ayush competency assessment cleared (${answeredCount}/${STUDENT_FRESH_QUESTIONNAIRE.length} answered)`,
+            'Hospital rotation clinical knowledge verified against national pharmacopoeial standards'
+          ],
+          recommendedImprovements: [
+            'Attain Level-2 certification in Electronic Health Records (EHR) Ayush Grid compliance',
+            'Complete GLP Chromatographic HPTLC analytical protocol documentation'
+          ]
+        };
+
+        const finalProfile = {
+          ...credentialsData,
+          loginType: 'fresh',
+          evaluation: evalReport,
+          questionnaireAnswers: answers
+        };
+
+        setUserProfile(finalProfile);
+        setCurrentRole(onboardingTarget);
+        setShowQuestionnaire(false);
+        setOnboardingTarget(null);
+        showToast('Fresh profile evaluated with 0 prior job applications! Explore 1,000 vacancies.');
+      };
+
+      const handleSkipQuestionnaire = () => {
+        const finalProfile = {
+          ...credentialsData,
+          loginType: 'fresh',
+          evaluation: {
+            readinessScore: 78,
+            strengths: ['Fresh graduate credentials registered on portal ledger'],
+            recommendedImprovements: ['Take the diagnostic assessment to unlock 95%+ high match vacancies']
+          },
+          questionnaireAnswers: null
+        };
+
+        setUserProfile(finalProfile);
+        setCurrentRole(onboardingTarget);
+        setShowQuestionnaire(false);
+        setOnboardingTarget(null);
+        showToast('Questionnaire skipped. Fresh candidate workspace opened.');
+      };
+
+      const handleLogout = () => {
+        setCurrentRole(null);
+        setUserProfile(null);
+        setOnboardingTarget(null);
+        setShowQuestionnaire(false);
+        setCredentialsData(null);
+        setAppliedJobs([]);
+        setApplications([]);
+        setTopNavPage('home');
+        showToast('Logged out to Ministry of Ayush Home.');
+      };
+
+      const handleApply = (jobId) => {
+        if (appliedJobs.includes(jobId)) {
+          showToast('Already submitted with your verified credentials.');
+          return;
+        }
+        const targetJob = jobs.find(j => j.id === jobId);
+        setAppliedJobs([...appliedJobs, jobId]);
+
+        if (targetJob) {
+          const newApp = {
+            id: `app-${Date.now()}`,
+            role: targetJob.title,
+            company: targetJob.comp,
+            appliedOn: '05 Sep 2026',
+            currentStage: 1,
+            stages: ['Application Lodged', 'APAAR Logbook Audited', 'Technical Interview Scheduled', 'Final Offer']
+          };
+          setApplications([...applications, newApp]);
+        }
+        showToast('Application sent directly to recruiter pipeline!');
+      };
+
+      const handleFacultyApply = (opp) => {
+        if (appliedFacultyGrants.includes(opp.id)) {
+          showToast('Proposal already logged for this grant.');
+          return;
+        }
+        setAppliedFacultyGrants([...appliedFacultyGrants, opp.id]);
+        const newProp = {
+          id: `prop-${Date.now()}`,
+          grantId: opp.id,
+          grant: opp.title,
+          org: opp.company,
+          submittedOn: '05 Sep 2026',
+          status: 'Document Screening Stage'
+        };
+        setFacultyProposals([...facultyProposals, newProp]);
+        showToast(`Sabbatical proposal lodged for: ${opp.title}`);
+      };
+
+      const handleVerifyStudent = (id, name) => {
+        if (signedStudents.includes(id)) {
+          showToast(`Logbook already signed for ${name}.`);
+          return;
+        }
+        setSignedStudents([...signedStudents, id]);
+        showToast(`Clinical logbook verified for ${name}!`);
+      };
+
+      const handleBatchSignAll = (studentList) => {
+        const ids = studentList.map(s => s.id);
+        setSignedStudents(Array.from(new Set([...signedStudents, ...ids])));
+        showToast('All pending clinical rotations verified & committed to APAAR blockchain!');
+      };
+
+      const handleRecruiterDispatch = (candidate) => {
+        if (dispatchedInvites.includes(candidate.id)) {
+          showToast(`Interview invite already active for ${candidate.name}.`);
+          return;
+        }
+        setDispatchedInvites([...dispatchedInvites, candidate.id]);
+        const newInv = {
+          id: `inv-${Date.now()}`,
+          candidateId: candidate.id,
+          candidate: candidate.name,
+          stream: candidate.stream,
+          sentOn: '05 Sep 2026',
+          status: 'Interview Call Dispatched'
+        };
+        setRecruiterPipeline([...recruiterPipeline, newInv]);
+        showToast(`Interview Call securely dispatched to ${candidate.name} via Ayush Samvad!`);
+      };
+
+      const handleAnswerSelect = (qId, optionIdx) => {
+        setTestAnswers({ ...testAnswers, [qId]: optionIdx });
+      };
+
+      const submitAssessment = () => {
+        let correctCount = 0;
+        ASSESSMENT_QUESTIONS.forEach(q => {
+          if (testAnswers[q.id] === q.correct) correctCount++;
+        });
+        const pct = Math.round((correctCount / ASSESSMENT_QUESTIONS.length) * 100);
+        setAssessmentScore(pct);
+        setTestSubmitted(true);
+        showToast(`Assessment Completed: ${pct}%. Verified skills appended to your APAAR record.`);
+      };
+
+      return (
+        <div className="flex-1 flex flex-col min-h-screen relative">
+          <DynamicPageBackground topPage={topNavPage} currentRole={currentRole} />
+
+          {toast && (
+            <div className="fixed bottom-6 right-6 z-50 bg-sihNavy text-white px-4 py-3 rounded-xl shadow-2xl border-2 border-amber-400 flex items-center space-x-3 text-xs font-semibold animate-fadeIn">
+              <span className="p-1 rounded bg-emerald-600 text-white font-bold">
+                <IconCheck className="w-3.5 h-3.5" />
+              </span>
+              <span>{toast}</span>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* TOP NAVIGATION BAR (TRICOLOR REMOVED AS REQUESTED)                        */}
+          {/* ========================================================================= */}
+          <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="h-20 flex items-center justify-between gap-4">
+                
+                {/* Upper Left Corner: National Emblem + Ministry of Ayush + New Ayush Skill Hub Logo & Green Text */}
+                <div 
+                  onClick={() => { setTopNavPage('home'); if(currentRole) handleLogout(); }}
+                  className="flex items-center gap-2 sm:gap-3 cursor-pointer select-none group py-1 overflow-x-auto"
+                >
+                  <div className="flex items-center space-x-2 pr-3 border-r border-slate-300">
+                    <NationalEmblem className="w-7 h-9 text-amber-700" />
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-black uppercase text-slate-800 leading-none">MINISTRY OF</span>
+                      <span className="text-[9px] font-black uppercase text-emerald-700 leading-tight">AYUSH, GOI</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-sihNavy via-slate-900 to-emerald-950 flex items-center justify-center shadow-md border border-amber-400/60 p-1">
+                      <IconAyushHub className="w-8 h-8" />
+                    </div>
+                    <div>
+                      <span className="text-xs sm:text-sm font-black tracking-tight text-sihNavy block leading-none">
+                        AYUSH SKILL HUB
+                      </span>
+                      <span className="text-[9px] font-extrabold text-emerald-600 tracking-wider">
+                        SMART INDIA INITIATIVE 2026
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* SIH STYLE CENTER NAVIGATION LINKS */}
+                <nav className="hidden lg:flex items-center space-x-5 text-xs font-bold text-slate-700 uppercase tracking-wide">
+                  <button 
+                    onClick={() => { setTopNavPage('home'); if(currentRole) handleLogout(); }} 
+                    className={`hover:text-emerald-700 transition pb-1 border-b-2 ${topNavPage === 'home' && !currentRole ? 'border-emerald-600 text-emerald-700' : 'border-transparent'}`}
+                  >
+                    Home
+                  </button>
+                  <button 
+                    onClick={() => { setTopNavPage('about'); if(currentRole) handleLogout(); }} 
+                    className={`hover:text-teal-700 transition pb-1 border-b-2 ${topNavPage === 'about' && !currentRole ? 'border-teal-600 text-teal-700' : 'border-transparent'}`}
+                  >
+                    About Ayush
+                  </button>
+                  <button 
+                    onClick={() => { setTopNavPage('guidelines'); if(currentRole) handleLogout(); }} 
+                    className={`hover:text-indigo-700 transition pb-1 border-b-2 ${topNavPage === 'guidelines' && !currentRole ? 'border-indigo-600 text-indigo-700' : 'border-transparent'}`}
+                  >
+                    Guidelines
+                  </button>
+                  <button 
+                    onClick={() => { setTopNavPage('vacancies'); if(currentRole) handleLogout(); }} 
+                    className={`hover:text-amber-700 transition pb-1 border-b-2 ${topNavPage === 'vacancies' && !currentRole ? 'border-amber-600 text-amber-700' : 'border-transparent'}`}
+                  >
+                    Vacancies
+                  </button>
+                  <button 
+                    onClick={() => { setTopNavPage('implementation'); if(currentRole) handleLogout(); }} 
+                    className={`hover:text-sky-700 transition pb-1 border-b-2 ${topNavPage === 'implementation' && !currentRole ? 'border-sky-600 text-sky-700' : 'border-transparent'}`}
+                  >
+                    Implementation
+                  </button>
+                  <button 
+                    onClick={() => { setTopNavPage('faqs'); if(currentRole) handleLogout(); }} 
+                    className={`hover:text-violet-700 transition pb-1 border-b-2 ${topNavPage === 'faqs' && !currentRole ? 'border-violet-600 text-violet-700' : 'border-transparent'}`}
+                  >
+                    FAQs
+                  </button>
+                  <button 
+                    onClick={() => { setTopNavPage('contact'); if(currentRole) handleLogout(); }} 
+                    className={`hover:text-rose-700 transition pb-1 border-b-2 ${topNavPage === 'contact' && !currentRole ? 'border-rose-600 text-rose-700' : 'border-transparent'}`}
+                  >
+                    Contact Us
+                  </button>
+                </nav>
+
+                {/* SIH STYLE RIGHT LOGIN ACTION / USER SESSION WITH SLEEK CUTOUT BUTTON */}
+                {currentRole ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="text-right hidden sm:block">
+                      <span className="text-xs font-bold text-slate-900 block leading-tight">{userProfile?.name}</span>
+                      <span className="text-[10px] text-emerald-700 font-bold uppercase">{currentRole}</span>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 rounded-xl text-xs font-bold transition shadow-sm"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setOnboardingTarget('student')}
+                      className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-800 rounded-full text-xs font-bold shadow-sm border border-slate-200 transition flex items-center space-x-2 group"
+                    >
+                      <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs group-hover:bg-emerald-700 group-hover:text-white transition">
+                        👤
+                      </div>
+                      <span>Portal Login</span>
+                    </button>
+                  </div>
+                )}
+
+              </div>
+            </div>
+          </header>
+
+          {/* MAIN CONTENT AREA */}
+          <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 relative z-10 space-y-6">
+            
+            {/* VIEW 1: HOME PAGE (WITH 4 SLIDING IMAGES CAROUSEL & 4 ROLE TILES) */}
+            {!currentRole && !showQuestionnaire && topNavPage === 'home' && (
+              <>
+                {/* 4-SLIDE WORKING CAROUSEL BANNER */}
+                <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-sihNavy min-h-[420px] flex flex-col justify-between p-6 sm:p-10">
+                  <div className="absolute inset-0 bg-gradient-to-r from-sihNavy via-slate-900/90 to-emerald-950/80"></div>
+                  <img 
+                    src={carouselSlides[carouselIdx].img} 
+                    alt="Ayush Innovation Carousel" 
+                    className="absolute inset-0 w-full h-full object-cover brightness-[0.25] transition-opacity duration-700"
+                  />
+
+                  {/* Top Banner Tag */}
+                  <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                    <span className="bg-amber-500/20 text-amber-300 border border-amber-400/40 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider">
+                      #AyushSkillHub2026 &bull; Slide {carouselIdx + 1} of {carouselSlides.length}
+                    </span>
+                    <div className="flex space-x-1.5">
+                      {carouselSlides.map((_, sIdx) => (
+                        <button
+                          key={sIdx}
+                          onClick={() => setCarouselIdx(sIdx)}
+                          className={`w-3 h-3 rounded-full transition ${sIdx === carouselIdx ? 'bg-amber-400 scale-125' : 'bg-white/40 hover:bg-white/70'}`}
+                        ></button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Center Quote & Leader Feature */}
+                  <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-center my-6">
+                    <div className="lg:col-span-2 space-y-4">
+                      <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-snug">
+                        “{carouselSlides[carouselIdx].quote}”
+                      </h2>
+                      <div className="text-slate-300 text-xs sm:text-sm font-semibold">
+                        <p className="text-white font-bold text-base">{carouselSlides[carouselIdx].leader}</p>
+                        <p className="text-emerald-400">{carouselSlides[carouselIdx].title}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Leader Visual Card */}
+                    <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 text-center space-y-2">
+                      <img 
+                        src={carouselSlides[carouselIdx].leaderImg} 
+                        alt="Feature Leader" 
+                        className="w-24 h-24 rounded-full object-cover mx-auto border-4 border-amber-400 shadow-lg"
+                      />
+                      <h4 className="text-white font-bold text-sm">National AYUSH Mission</h4>
+                      <p className="text-[11px] text-emerald-300">Empowering Traditional Medicine Scholars</p>
+                    </div>
+                  </div>
+
+                  {/* Banner Footer Navigation Arrows */}
+                  <div className="relative z-10 flex justify-between items-center text-xs font-bold text-slate-300 pt-2 border-t border-white/10">
+                    <span>NEW &bull; Select your role below to explore 1,000 live vacancies &amp; APAAR logbook verification</span>
+                    <div className="flex space-x-2">
+                      <button onClick={() => setCarouselIdx((carouselIdx - 1 + carouselSlides.length) % carouselSlides.length)} className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white">&larr;</button>
+                      <button onClick={() => setCarouselIdx((carouselIdx + 1) % carouselSlides.length)} className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white">&rarr;</button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4 COLORFUL ECOSYSTEM TILES (STUDENT, FACULTY, INSTITUTION, RECRUITER) */}
+                <div className="space-y-3 pt-4">
+                  <div className="flex justify-between items-center border-b border-slate-200 pb-2">
+                    <h3 className="text-base font-extrabold text-sihNavy uppercase tracking-wide">National Ecosystem Gateway (Select Authorized Desk)</h3>
+                    <span className="text-xs text-slate-500 font-semibold">Click any role card below to sign in</span>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                    
+                    {/* CANDIDATE / STUDENT */}
+                    <div 
+                      onClick={() => setOnboardingTarget('student')} 
+                      className="bg-white rounded-xl overflow-hidden border-2 border-emerald-600/30 shadow-sm sih-card-hover cursor-pointer flex flex-col justify-between group"
+                    >
+                      <div className="relative h-36 w-full overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=480&q=80" alt="Student Portal" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-emerald-900/40 to-transparent"></div>
+                        <span className="absolute bottom-2.5 left-3 text-[10px] font-black uppercase text-white bg-emerald-700 px-2.5 py-0.5 rounded border border-emerald-400/40">
+                          Student / Scholar Desk
+                        </span>
+                      </div>
+                      <div className="p-4 flex-1 flex flex-col justify-between bg-emerald-50/20">
+                        <div>
+                          <h4 className="text-sm font-bold text-slate-900 group-hover:text-emerald-800 transition">Candidate Workspace</h4>
+                          <p className="text-xs text-slate-600 mt-1 leading-relaxed">Search 1,000 vacancies, take clinical diagnostics, and track active applications.</p>
+                        </div>
+                        <span className="mt-4 text-xs font-bold text-emerald-700 flex items-center">Login with APAAR &rarr;</span>
+                      </div>
+                    </div>
+
+                    {/* FACULTY */}
+                    <div 
+                      onClick={() => setOnboardingTarget('faculty')} 
+                      className="bg-white rounded-xl overflow-hidden border-2 border-indigo-600/30 shadow-sm sih-card-hover cursor-pointer flex flex-col justify-between group"
+                    >
+                      <div className="relative h-36 w-full overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=480&q=80" alt="Faculty Portal" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/90 via-indigo-900/40 to-transparent"></div>
+                        <span className="absolute bottom-2.5 left-3 text-[10px] font-black uppercase text-white bg-indigo-700 px-2.5 py-0.5 rounded border border-indigo-400/40">
+                          Academician / Researcher
+                        </span>
+                      </div>
+                      <div className="p-4 flex-1 flex flex-col justify-between bg-indigo-50/20">
+                        <div>
+                          <h4 className="text-sm font-bold text-slate-900 group-hover:text-indigo-800 transition">Faculty Sabbaticals</h4>
+                          <p className="text-xs text-slate-600 mt-1 leading-relaxed">Apply for industrial research grants, file project proposals, and track fellowships.</p>
+                        </div>
+                        <span className="mt-4 text-xs font-bold text-indigo-700 flex items-center">Faculty Sign In &rarr;</span>
+                      </div>
+                    </div>
+
+                    {/* INSTITUTION / TPO */}
+                    <div 
+                      onClick={() => setOnboardingTarget('institution')} 
+                      className="bg-white rounded-xl overflow-hidden border-2 border-amber-600/30 shadow-sm sih-card-hover cursor-pointer flex flex-col justify-between group"
+                    >
+                      <div className="relative h-36 w-full overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=480&q=80" alt="TPO Portal" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-amber-950/90 via-amber-900/40 to-transparent"></div>
+                        <span className="absolute bottom-2.5 left-3 text-[10px] font-black uppercase text-white bg-amber-700 px-2.5 py-0.5 rounded border border-amber-400/40">
+                          Dean &amp; TPO Authority
+                        </span>
+                      </div>
+                      <div className="p-4 flex-1 flex flex-col justify-between bg-amber-50/20">
+                        <div>
+                          <h4 className="text-sm font-bold text-slate-900 group-hover:text-amber-800 transition">Institutional Oversight</h4>
+                          <p className="text-xs text-slate-600 mt-1 leading-relaxed">Authorize student practicum logbooks, batch sign rotations, and view NIRF metrics.</p>
+                        </div>
+                        <span className="mt-4 text-xs font-bold text-amber-700 flex items-center">Dean / TPO Login &rarr;</span>
+                      </div>
+                    </div>
+
+                    {/* RECRUITER */}
+                    <div 
+                      onClick={() => setOnboardingTarget('recruiter')} 
+                      className="bg-white rounded-xl overflow-hidden border-2 border-cyan-600/30 shadow-sm sih-card-hover cursor-pointer flex flex-col justify-between group"
+                    >
+                      <div className="relative h-36 w-full overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=480&q=80" alt="Recruiter Portal" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-cyan-950/90 via-cyan-900/40 to-transparent"></div>
+                        <span className="absolute bottom-2.5 left-3 text-[10px] font-black uppercase text-white bg-cyan-700 px-2.5 py-0.5 rounded border border-cyan-400/40">
+                          Industry Recruiter Desk
+                        </span>
+                      </div>
+                      <div className="p-4 flex-1 flex flex-col justify-between bg-cyan-50/20">
+                        <div>
+                          <h4 className="text-sm font-bold text-slate-900 group-hover:text-cyan-800 transition">Corporate ATS</h4>
+                          <p className="text-xs text-slate-600 mt-1 leading-relaxed">Search 200 pre-verified candidates with audited clinical hours and manage callouts.</p>
+                        </div>
+                        <span className="mt-4 text-xs font-bold text-cyan-700 flex items-center">Recruiter Login &rarr;</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* SIH STYLE "WHY THIS PORTAL IS IMPORTANT" */}
+                <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-8 my-8">
+                  <div className="text-center space-y-2">
+                    <span className="text-[10px] font-extrabold uppercase text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+                      National Impact &amp; Value Proposition
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-black uppercase text-sihNavy tracking-wide">
+                      WHY AYUSH SKILL HUB IS IMPORTANT FOR GOVERNMENT DEPARTMENTS AND CORPORATE ENTERPRISES
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    
+                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3">
+                      <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center mx-auto shadow"><IconAward className="w-6 h-6" /></div>
+                      <h4 className="font-bold text-sm text-slate-900">Innovative Solutions</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed">Get verified solutions to clinical and pharmaceutical problems in cost-effective ways. Brand your enterprise.</p>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3">
+                      <div className="w-12 h-12 rounded-xl bg-sky-600 text-white flex items-center justify-center mx-auto shadow"><IconUsers className="w-6 h-6" /></div>
+                      <h4 className="font-bold text-sm text-slate-900">Recognition And Visibility</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed">Nationwide recognition and visibility for your company across all premier traditional medicine institutions in India.</p>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3">
+                      <div className="w-12 h-12 rounded-xl bg-amber-600 text-white flex items-center justify-center mx-auto shadow"><IconDocument className="w-6 h-6" /></div>
+                      <h4 className="font-bold text-sm text-slate-900">Out-Of-The-Box Solutions</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed">Talented practitioners and researchers from all over the country offer out-of-the-box solutions to your institutional hurdles.</p>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3">
+                      <div className="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center mx-auto shadow"><IconBriefcase className="w-6 h-6" /></div>
+                      <h4 className="font-bold text-sm text-slate-900">Innovation Movement Opportunity</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed">Be part of the world's biggest traditional medicine innovation movement with top talents in the country.</p>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* SIH MILESTONES SECTION */}
+                <div className="rounded-2xl bg-gradient-to-r from-sihNavy via-slate-900 to-emerald-950 p-8 text-white shadow-xl space-y-6">
+                  <div className="text-center space-y-1">
+                    <h3 className="text-2xl font-black uppercase tracking-wider text-amber-400">AYUSH GRID &amp; PORTAL MILESTONES</h3>
+                    <p className="text-xs text-slate-300">Unprecedented scale of participation across India's traditional medical colleges</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center divide-y md:divide-y-0 md:divide-x divide-white/10 pt-4">
+                    <div className="p-3">
+                      <span className="text-2xl sm:text-3xl font-black text-emerald-400 block">18,04,218+</span>
+                      <span className="text-[11px] uppercase font-bold text-slate-300 mt-1 block">Participating Students</span>
+                    </div>
+                    <div className="p-3">
+                      <span className="text-2xl sm:text-3xl font-black text-sky-400 block">12,800+</span>
+                      <span className="text-[11px] uppercase font-bold text-slate-300 mt-1 block">Alumni Network</span>
+                    </div>
+                    <div className="p-3">
+                      <span className="text-2xl sm:text-3xl font-black text-amber-400 block">9,406</span>
+                      <span className="text-[11px] uppercase font-bold text-slate-300 mt-1 block">Participating Institutes</span>
+                    </div>
+                    <div className="p-3">
+                      <span className="text-2xl sm:text-3xl font-black text-teal-400 block">3,158</span>
+                      <span className="text-[11px] uppercase font-bold text-slate-300 mt-1 block">Total Problem Statements</span>
+                    </div>
+                    <div className="p-3 col-span-2 md:col-span-1">
+                      <span className="text-2xl sm:text-3xl font-black text-indigo-400 block">150+</span>
+                      <span className="text-[11px] uppercase font-bold text-slate-300 mt-1 block">Startups Submitted</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* GRAPHICAL REPRESENTATION & ANALYTICS IN HOME GATEWAY */}
+                <GraphicalDashboardCharts jobs={jobs} candidates={candidates} userProfile={userProfile} />
+
+                {/* ORGANISERS SECTION */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-4">
+                  <h4 className="text-xs font-black uppercase text-slate-500 tracking-widest">ORGANISERS &amp; STRATEGIC PARTNERS</h4>
+                  <div className="flex flex-wrap items-center justify-center gap-8 opacity-90">
+                    <div className="flex items-center space-x-2 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 font-bold text-xs text-slate-700">
+                      <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                      <span>Ministry of Ayush, GoI</span>
+                    </div>
+                    <div className="flex items-center space-x-2 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 font-bold text-xs text-slate-700">
+                      <span className="w-3 h-3 rounded-full bg-emerald-600"></span>
+                      <span>MoE's Innovation Cell</span>
+                    </div>
+                    <div className="flex items-center space-x-2 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 font-bold text-xs text-slate-700">
+                      <span className="w-3 h-3 rounded-full bg-sky-600"></span>
+                      <span>AICTE Apex Council</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* DEDICATED TOP NAV PAGES */}
+            {!currentRole && !showQuestionnaire && topNavPage === 'about' && (
+              <div className="bg-white p-8 rounded-2xl border border-teal-200 shadow-sm space-y-6 animate-fadeIn">
+                <span className="text-xs font-black uppercase text-teal-800 bg-teal-100 px-3 py-1 rounded-full">Ministry of Ayush Portal</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-sihNavy">About National Academia-Industry Skill Hub</h2>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  The National Academia-Industry Skill Hub is an apex initiative under the Ministry of Ayush, Government of India. It bridges traditional Indian medicine (Ayurveda, Yoga &amp; Naturopathy, Unani, Siddha, and Homeopathy) with modern industrial phytopharmaceutical R&amp;D and clinical healthcare networks. Through standardized APAAR ID logbook integration, we ensure transparent, verified skill verification and seamless graduate placements.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+                  <div className="p-4 bg-teal-50 rounded-xl border border-teal-200 space-y-2">
+                    <h4 className="font-bold text-teal-900 text-sm">Vision 2026</h4>
+                    <p className="text-xs text-slate-600">Achieving 100% digital integration of all traditional medical institutions with the National Ayush Grid.</p>
+                  </div>
+                  <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200 space-y-2">
+                    <h4 className="font-bold text-emerald-900 text-sm">Quality Assurance</h4>
+                    <p className="text-xs text-slate-600">Rigorous Good Laboratory Practice (GLP) and clinical rotation audits for every registered scholar.</p>
+                  </div>
+                  <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 space-y-2">
+                    <h4 className="font-bold text-amber-900 text-sm">Industrial Consortia</h4>
+                    <p className="text-xs text-slate-600">Active partnerships with Dabur, Himalaya, Patanjali, Baidyanath, and Kerala Ayurveda.</p>
+                  </div>
+                </div>
+                <button onClick={() => setTopNavPage('home')} className="px-5 py-2.5 bg-teal-700 text-white font-bold text-xs rounded-xl shadow">
+                  &larr; Return to Home Gateway
+                </button>
+              </div>
+            )}
+
+            {!currentRole && !showQuestionnaire && topNavPage === 'guidelines' && (
+              <div className="bg-white p-8 rounded-2xl border border-indigo-200 shadow-sm space-y-6 animate-fadeIn">
+                <span className="text-xs font-black uppercase text-indigo-800 bg-indigo-100 px-3 py-1 rounded-full">Regulatory Standard Operating Procedures</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-sihNavy">Portal Guidelines &amp; APAAR SOP</h2>
+                <div className="space-y-4 text-xs text-slate-700">
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <h4 className="font-bold text-indigo-900 text-sm">1. Student Registration &amp; Logbook Audit</h4>
+                    <p className="text-slate-600">Candidates must register using their official APAAR ID. Institutional Deans and TPOs are statutorily required to verify clinical rotation hours before final corporate applications can be lodged.</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <h4 className="font-bold text-indigo-900 text-sm">2. Faculty Sabbatical Eligibility</h4>
+                    <p className="text-slate-600">Professors and research fellows across recognized universities may apply for industrial fellowships and collaborative apex lab grants through the Academician portal.</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <h4 className="font-bold text-indigo-900 text-sm">3. Recruiter Compliance</h4>
+                    <p className="text-slate-600">All participating enterprises must adhere to Ministry of Ayush regulatory standards regarding stipends, clinical residency terms, and pharmacovigilance reporting.</p>
+                  </div>
+                </div>
+                <button onClick={() => setTopNavPage('home')} className="px-5 py-2.5 bg-indigo-700 text-white font-bold text-xs rounded-xl shadow">
+                  &larr; Return to Home Gateway
+                </button>
+              </div>
+            )}
+
+            {!currentRole && !showQuestionnaire && topNavPage === 'vacancies' && (
+              <div className="bg-white p-8 rounded-2xl border border-amber-200 shadow-sm space-y-6 animate-fadeIn">
+                <span className="text-xs font-black uppercase text-amber-800 bg-amber-100 px-3 py-1 rounded-full">National Job Catalog</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-sihNavy">Explore 1,000+ Active Ayush Vacancies</h2>
+                <p className="text-slate-600 text-xs">
+                  Our platform indexes live opportunities across full-time placements, clinical residencies, and government research fellowships. To apply directly and track your application stage, please log in through the <button onClick={() => setOnboardingTarget('student')} className="text-emerald-700 font-bold underline">Candidate Portal</button>.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {jobs.slice(0, 3).map(j => (
+                    <div key={j.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                      <span className="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">{j.comp}</span>
+                      <h4 className="font-bold text-slate-900 text-sm">{j.title}</h4>
+                      <p className="text-xs text-slate-500">{j.loc} &bull; {j.stipend}</p>
+                    </div>
+                  ))}
+                </div>
+                <button onClick={() => setTopNavPage('home')} className="px-5 py-2.5 bg-amber-600 text-white font-bold text-xs rounded-xl shadow">
+                  &larr; Return to Home Gateway
+                </button>
+              </div>
+            )}
+
+            {!currentRole && !showQuestionnaire && topNavPage === 'implementation' && (
+              <div className="bg-white p-8 rounded-2xl border border-sky-200 shadow-sm space-y-6 animate-fadeIn">
+                <span className="text-xs font-black uppercase text-sky-800 bg-sky-100 px-3 py-1 rounded-full">Infrastructure &amp; Roadmap</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-sihNavy">Project Grid Implementation 2026</h2>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  The Ayush Skill Hub is deployed on secure National Informatics Centre (NIC) cloud infrastructure. It synchronizes real-time data between university student information systems, hospital EMR terminals, and corporate applicant tracking systems (ATS).
+                </p>
+                <div className="space-y-3 text-xs text-slate-700">
+                  <div className="flex items-center space-x-3 p-3 bg-sky-50 rounded-lg border border-sky-200">
+                    <span className="w-6 h-6 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">1</span>
+                    <span>Phase 1: APAAR ID integration and digital logbook authentication across 9,406 colleges.</span>
+                  </div>
+                  <div className="flex items-center space-x-3 p-3 bg-sky-50 rounded-lg border border-sky-200">
+                    <span className="w-6 h-6 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">2</span>
+                    <span>Phase 2: AI-powered candidate skill matching with industrial R&amp;D vacancies.</span>
+                  </div>
+                  <div className="flex items-center space-x-3 p-3 bg-sky-50 rounded-lg border border-sky-200">
+                    <span className="w-6 h-6 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">3</span>
+                    <span>Phase 3: National pharmacovigilance reporting and career tracking dashboard.</span>
+                  </div>
+                </div>
+                <button onClick={() => setTopNavPage('home')} className="px-5 py-2.5 bg-sky-700 text-white font-bold text-xs rounded-xl shadow">
+                  &larr; Return to Home Gateway
+                </button>
+              </div>
+            )}
+
+            {!currentRole && !showQuestionnaire && topNavPage === 'faqs' && (
+              <div className="bg-white p-8 rounded-2xl border border-violet-200 shadow-sm space-y-6 animate-fadeIn">
+                <span className="text-xs font-black uppercase text-violet-800 bg-violet-100 px-3 py-1 rounded-full">Help &amp; Support</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-sihNavy">Frequently Asked Questions (FAQs)</h2>
+                <div className="space-y-4 text-xs">
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <h4 className="font-bold text-slate-900 text-sm">Q: How do I register as a fresh student?</h4>
+                    <p className="text-slate-600">Click on "Candidate Gateway", select "Fresh Login (New User)", and enter your APAAR credentials to start your evaluation.</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <h4 className="font-bold text-slate-900 text-sm">Q: Who verifies my clinical hours?</h4>
+                    <p className="text-slate-600">Your institutional Dean or TPO must authorize your hospital rotation logbooks through their authorized portal login.</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <h4 className="font-bold text-slate-900 text-sm">Q: Is the platform recognized by the Government of India?</h4>
+                    <p className="text-slate-600">Yes, it is officially verified by NIC and operated under the aegis of the Ministry of Ayush.</p>
+                  </div>
+                </div>
+                <button onClick={() => setTopNavPage('home')} className="px-5 py-2.5 bg-violet-700 text-white font-bold text-xs rounded-xl shadow">
+                  &larr; Return to Home Gateway
+                </button>
+              </div>
+            )}
+
+            {!currentRole && !showQuestionnaire && topNavPage === 'contact' && (
+              <div className="bg-white p-8 rounded-2xl border border-rose-200 shadow-sm space-y-6 animate-fadeIn">
+                <span className="text-xs font-black uppercase text-rose-800 bg-rose-100 px-3 py-1 rounded-full">Ministry Helpdesk</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-sihNavy">Contact Us &amp; Support Desk</h2>
+                <p className="text-slate-600 text-xs leading-relaxed">
+                  For technical inquiries, APAAR ID synchronization issues, or institutional onboarding support, reach out to the official Ministry of Ayush helpdesk.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <h4 className="font-bold text-slate-900 text-sm">Official Email</h4>
+                    <p className="text-emerald-700 font-mono font-bold">support@ayush-skillhub.gov.in</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <h4 className="font-bold text-slate-900 text-sm">Toll-Free Helpdesk</h4>
+                    <p className="text-slate-700 font-mono font-bold">1800-11-AYUSH (2987)</p>
+                  </div>
+                </div>
+                <button onClick={() => setTopNavPage('home')} className="px-5 py-2.5 bg-rose-700 text-white font-bold text-xs rounded-xl shadow">
+                  &larr; Return to Home Gateway
+                </button>
+              </div>
+            )}
+
+            {/* VIEW 2: ROLE WORKSPACES */}
+            {currentRole === 'student' && (
+              <StudentPortalView
+                user={userProfile}
+                jobs={jobs}
+                appliedJobs={appliedJobs}
+                onApply={handleApply}
+                currentPage={candidatePage}
+                setCandidatePage={setCandidatePage}
+                questions={ASSESSMENT_QUESTIONS}
+                testAnswers={testAnswers}
+                onSelectAnswer={handleAnswerSelect}
+                onSubmitAssessment={submitAssessment}
+                testSubmitted={testSubmitted}
+                assessmentScore={assessmentScore}
+                applications={applications}
+              />
+            )}
+
+            {currentRole === 'faculty' && (
+              <FacultyPortalView
+                user={userProfile}
+                opportunities={FACULTY_OPPORTUNITIES}
+                appliedGrants={appliedFacultyGrants}
+                proposals={facultyProposals}
+                currentPage={facultyPage}
+                setFacultyPage={setFacultyPage}
+                onApply={handleFacultyApply}
+              />
+            )}
+
+            {currentRole === 'institution' && (
+              <InstitutionTPOView
+                user={userProfile}
+                candidates={candidates}
+                signedStudents={signedStudents}
+                currentPage={institutionPage}
+                setInstitutionPage={setInstitutionPage}
+                onVerify={handleVerifyStudent}
+                onBulkVerify={handleBatchSignAll}
+              />
+            )}
+
+            {currentRole === 'recruiter' && (
+              <RecruiterTalentView
+                user={userProfile}
+                candidates={candidates}
+                pipeline={recruiterPipeline}
+                dispatchedInvites={dispatchedInvites}
+                currentPage={recruiterPage}
+                setRecruiterPage={setRecruiterPage}
+                onDispatch={handleRecruiterDispatch}
+              />
+            )}
+
+          </main>
+
+          {/* ONBOARDING STEP 1: MODAL WITH DUAL LOG-IN MODES */}
+          {onboardingTarget && !showQuestionnaire && (
+            <OnboardingModal
+              roleKey={onboardingTarget}
+              onClose={() => setOnboardingTarget(null)}
+              onSubmit={(formData, loginType) => handleCredentialSubmit(onboardingTarget, formData, loginType)}
+            />
+          )}
+
+          {/* ONBOARDING STEP 2: 15 DETAILED CLINICAL QUESTIONS (ONLY FOR NEW STUDENT SIGN-UPS) */}
+          {showQuestionnaire && (
+            <QuestionnaireModal
+              roleKey={onboardingTarget}
+              questions={STUDENT_FRESH_QUESTIONNAIRE}
+              onSkip={handleSkipQuestionnaire}
+              onComplete={handleQuestionnaireComplete}
+            />
+          )}
+
+          {/* COLORFUL GOVERNMENT FOOTER */}
+          <footer className="mt-auto bg-sihNavy text-slate-300 text-xs border-t-4 border-emerald-600 relative z-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                <div>
+                  <div className="flex items-center space-x-2 text-white font-black text-sm mb-2">
+                    <IconAyushHub className="w-5 h-5 text-amber-400" />
+                    <span>Ministry of Ayush</span>
+                  </div>
+                  <p className="text-slate-400 text-[11px] leading-relaxed">
+                    National Academia-Industry Skill Hub Portal. Facilitating verified traditional medicine placements across India.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-amber-400 uppercase text-[11px] tracking-wider mb-2">5 Recognized Streams</h4>
+                  <p className="text-slate-400 text-[11px] leading-relaxed">Ayurveda (BAMS), Homeopathy (BHMS), Yoga & Naturopathy (BNYS), Unani (BUMS), Siddha (BSMS).</p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-sky-400 uppercase text-[11px] tracking-wider mb-2">National Consortia</h4>
+                  <p className="text-slate-400 text-[11px] leading-relaxed">Partnered with Dabur, Himalaya, Patanjali, CCRAS, NIH Kolkata, and Apex State Ayush directorates.</p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-emerald-400 uppercase text-[11px] tracking-wider mb-2">Statutory Compliance</h4>
+                  <div className="p-2.5 bg-slate-800/90 rounded-lg border border-slate-700 text-[11px] space-y-1">
+                    <div className="text-emerald-400 font-bold flex items-center">
+                      <IconCheck className="w-3.5 h-3.5 mr-1" /> 100% APAAR Verification
+                    </div>
+                    <p className="text-slate-400 text-[10px]">Synchronized with National Ayush Grid and AISHE standard databases.</p>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-400">
+                <p>&copy; 2026 Ministry of Ayush &bull; Government of India. All Rights Reserved.</p>
+                <div className="flex space-x-5 mt-2 sm:mt-0 font-medium">
+                  <span className="text-slate-400">Privacy Policy</span>
+                  <span className="text-slate-400">Terms of Service</span>
+                  <span className="text-slate-400">Ayush Grid Standards</span>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // MODAL: DUAL LOGIN (FRESH SIGN-UP VS EXISTING ACCOUNT)
+    // =========================================================================
+    function OnboardingModal({ roleKey, onClose, onSubmit }) {
+      const [loginMode, setLoginMode] = useState('existing');
+      
+      const [formData, setFormData] = useState({
+        name: roleKey === 'student' ? 'Dr. Aarav Sharma' : (roleKey === 'faculty' ? 'Prof. K. R. Raghavan' : (roleKey === 'institution' ? 'Dr. Sunita Varma' : 'Vikramaditya Roy')),
+        degreeOrDept: roleKey === 'student' ? 'Ayurveda (BAMS)' : (roleKey === 'faculty' ? 'Dravyaguna & Phytochemistry' : (roleKey === 'institution' ? 'Academic Dean & TPO' : 'Head of Talent Acquisition')),
+        instituteOrComp: roleKey === 'student' ? 'All India Institute of Ayurveda (AIIA), New Delhi' : (roleKey === 'faculty' ? 'Institute of Teaching & Research in Ayurveda (ITRA)' : (roleKey === 'institution' ? 'National Institute of Homoeopathy (NIH), Kolkata' : 'Dabur Research Foundation')),
+        credentialId: roleKey === 'student' ? 'APAAR: 8492-2918-4921' : (roleKey === 'faculty' ? 'FAC-ID: CCRAS-7829' : (roleKey === 'institution' ? 'AISHE: C-14920' : 'CIN: L24230DL1975PLC007908')),
+        experienceOrHours: roleKey === 'student' ? '920 Clinical Hours' : (roleKey === 'faculty' ? '14 Years Academic & R&D' : (roleKey === 'institution' ? '1,420 Cohort Strength' : '85 Corporate Openings'))
+      });
+
+      const titles = {
+        student: { title: 'Candidate Portal Authentication', badge: 'Student / Resident Desk', border: 'border-t-4 border-emerald-600' },
+        faculty: { title: 'Academician Sabbatical Sign-In', badge: 'Faculty / Researcher', border: 'border-t-4 border-indigo-600' },
+        institution: { title: 'Institute TPO Authorization', badge: 'Dean / TPO Authority', border: 'border-t-4 border-amber-600' },
+        recruiter: { title: 'Corporate Talent Desk Access', badge: 'Industry Recruiter', border: 'border-t-4 border-cyan-600' }
+      };
+
+      const info = titles[roleKey];
+
+      const handleChange = (field, val) => {
+        setFormData({ ...formData, [field]: val });
+      };
+
+      const handleFormSubmit = (e) => {
+        e.preventDefault();
+        onSubmit(formData, loginMode);
+      };
+
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+          <div className={`bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden ${info.border}`}>
+            <div className="p-5 border-b border-slate-100 flex justify-between items-start bg-slate-50">
+              <div>
+                <span className="text-[10px] font-bold uppercase text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded border border-emerald-200">
+                  {info.badge}
+                </span>
+                <h3 className="text-base font-extrabold text-sihNavy mt-1.5">{info.title}</h3>
+                <p className="text-xs text-slate-500 mt-0.5">Select authentication method and verify details</p>
+              </div>
+              <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+            </div>
+
+            {/* DUAL LOG IN SELECTOR TABS */}
+            <div className="flex border-b border-slate-200 bg-slate-100/70 p-1.5 text-xs font-bold">
+              <button
+                type="button"
+                onClick={() => setLoginMode('existing')}
+                className={`flex-1 py-2 text-center rounded-lg transition ${loginMode === 'existing' ? 'bg-white text-sihNavy shadow font-extrabold border border-slate-200' : 'text-slate-500 hover:text-slate-900'}`}
+              >
+                Existing User (Fast Sign-In)
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginMode('fresh')}
+                className={`flex-1 py-2 text-center rounded-lg transition ${loginMode === 'fresh' ? 'bg-emerald-700 text-white shadow font-extrabold' : 'text-slate-500 hover:text-slate-900'}`}
+              >
+                Fresh Login (New User)
+              </button>
+            </div>
+
+            <form onSubmit={handleFormSubmit} className="p-6 space-y-4 text-xs">
+              {roleKey === 'student' && loginMode === 'fresh' && (
+                <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-900 text-[11px] leading-relaxed">
+                  <strong>Notice for New Candidates:</strong> Fresh login starts with 0 applied jobs. You will take a 15-question clinical diagnostic questionnaire (which can be skipped anytime) to benchmark your profile.
+                </div>
+              )}
+
+              <div>
+                <label className="font-semibold text-slate-700 block mb-1">Full Legal Name</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => handleChange('name', e.target.value)}
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-emerald-600 font-medium"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="font-semibold text-slate-700 block mb-1">
+                    {roleKey === 'student' ? 'Degree / Discipline' : (roleKey === 'faculty' ? 'Specialization' : (roleKey === 'institution' ? 'Designation' : 'Corporate Role'))}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.degreeOrDept}
+                    onChange={(e) => handleChange('degreeOrDept', e.target.value)}
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-emerald-600 font-medium"
+                  />
+                </div>
+                <div>
+                  <label className="font-semibold text-slate-700 block mb-1">
+                    {roleKey === 'student' ? 'Audited Hours' : (roleKey === 'faculty' ? 'Experience' : (roleKey === 'institution' ? 'Cohort Count' : 'Hiring Quota'))}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.experienceOrHours}
+                    onChange={(e) => handleChange('experienceOrHours', e.target.value)}
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-emerald-600 font-medium"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  {roleKey === 'recruiter' ? 'Enterprise / Pharmaceutical Hub' : 'Affiliated College / Institution'}
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.instituteOrComp}
+                  onChange={(e) => handleChange('instituteOrComp', e.target.value)}
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-emerald-600 font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="font-semibold text-slate-700 block mb-1">
+                  {roleKey === 'student' ? 'APAAR Identity ID' : (roleKey === 'faculty' ? 'CCRAS / Faculty ID' : (roleKey === 'institution' ? 'AISHE Institutional Code' : 'Corporate CIN / Reg ID'))}
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.credentialId}
+                  onChange={(e) => handleChange('credentialId', e.target.value)}
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-emerald-600 font-mono text-slate-800 font-semibold"
+                />
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  className="w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow transition tracking-wide"
+                >
+                  {roleKey === 'student' && loginMode === 'fresh' ? 'Proceed to Clinical Questionnaire (15 Qs) &rarr;' : 'Authenticate & Open Workspace &rarr;'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // MODAL: 15-QUESTION CLINICAL COMPETENCY EVALUATION (FOR FRESH STUDENTS ONLY)
+    // =========================================================================
+    function QuestionnaireModal({ roleKey, questions, onSkip, onComplete }) {
+      const [selectedAnswers, setSelectedAnswers] = useState({});
+      const isComplete = questions.every(q => selectedAnswers[q.id] !== undefined);
+
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border-t-4 border-emerald-600 overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-5 border-b border-slate-200 flex justify-between items-start bg-slate-50">
+              <div>
+                <span className="text-[10px] font-bold uppercase text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded border border-emerald-200">
+                  NEW STUDENT CLINICAL EVALUATION (15 QUESTIONS)
+                </span>
+                <h3 className="text-base font-extrabold text-sihNavy mt-1">National Ayush Competency Diagnostic</h3>
+                <p className="text-xs text-slate-500 mt-0.5">Answer the case questions to benchmark your profile readiness and CV ranking.</p>
+              </div>
+              <button 
+                onClick={onSkip} 
+                className="text-xs text-slate-600 hover:text-emerald-700 underline font-bold bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200"
+              >
+                Skip Questionnaire &rarr;
+              </button>
+            </div>
+
+            <div className="p-6 space-y-5 text-xs overflow-y-auto flex-1">
+              {questions.map((q, idx) => (
+                <div key={q.id} className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                  <div className="flex justify-between items-center font-bold text-slate-800">
+                    <span>Question {idx + 1} of {questions.length}</span>
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-semibold">{q.category}</span>
+                  </div>
+                  <p className="font-semibold text-slate-700 leading-relaxed">{q.question}</p>
+                  <div className="space-y-1.5 pt-1">
+                    {q.options.map((opt, optIdx) => {
+                      const isSel = selectedAnswers[q.id] === opt;
+                      return (
+                        <div
+                          key={optIdx}
+                          onClick={() => setSelectedAnswers({ ...selectedAnswers, [q.id]: opt })}
+                          className={`p-2.5 rounded-lg border cursor-pointer transition flex items-center space-x-2 ${isSel ? 'bg-emerald-700 text-white border-emerald-700 font-semibold shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100'}`}
+                        >
+                          <span className="w-4 h-4 rounded-full border flex items-center justify-center text-[10px]">{String.fromCharCode(65 + optIdx)}</span>
+                          <span>{opt}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+              <button
+                onClick={onSkip}
+                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg text-xs transition"
+              >
+                Skip Questionnaire &amp; Open Workspace
+              </button>
+              <button
+                onClick={() => onComplete(selectedAnswers)}
+                disabled={!isComplete}
+                className="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg text-xs transition disabled:opacity-40 shadow"
+              >
+                Submit Evaluation ({Object.keys(selectedAnswers).length}/{questions.length}) &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // CANDIDATE WORKSPACE
+    // =========================================================================
+    function StudentPortalView({
+      user,
+      jobs,
+      appliedJobs,
+      onApply,
+      currentPage,
+      setCandidatePage,
+      questions,
+      testAnswers,
+      onSelectAnswer,
+      onSubmitAssessment,
+      testSubmitted,
+      assessmentScore,
+      applications
+    }) {
+      const [keyword, setKeyword] = useState('');
+      const [selectedStream, setSelectedStream] = useState('ALL');
+      const [selectedLocation, setSelectedLocation] = useState('ALL');
+      const [selectedType, setSelectedType] = useState('ALL');
+      const [recommendedOnly, setRecommendedOnly] = useState(false);
+      const [pageNumber, setPageNumber] = useState(1);
+      const itemsPerPage = 9;
+
+      const filteredJobs = useMemo(() => {
+        let result = jobs.filter((j) => {
+          const matchKw = keyword === '' || j.title.toLowerCase().includes(keyword.toLowerCase()) || j.comp.toLowerCase().includes(keyword.toLowerCase());
+          const matchStream = selectedStream === 'ALL' || j.stream === selectedStream;
+          const matchLoc = selectedLocation === 'ALL' || j.loc.includes(selectedLocation);
+          const matchType = selectedType === 'ALL' || j.type === selectedType;
+          return matchKw && matchStream && matchLoc && matchType;
+        });
+
+        if (recommendedOnly) {
+          result = [...result].sort((a, b) => b.match - a.match);
+        }
+
+        return result;
+      }, [jobs, keyword, selectedStream, selectedLocation, selectedType, recommendedOnly]);
+
+      const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
+      const paginatedJobs = filteredJobs.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage);
+
+      return (
+        <div className="space-y-6 animate-fadeIn">
+          {/* PROFILE SUMMARY BAR */}
+          <div className="bg-white p-4 rounded-xl border-l-4 border-emerald-600 border-y border-r border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex items-center space-x-3.5">
+              <img src={CANDIDATE_PHOTOS[0]} alt={user.name} className="w-12 h-12 rounded-xl object-cover border-2 border-emerald-600 shadow-sm" />
+              <div>
+                <div className="flex items-center space-x-2">
+                  <h3 className="text-base font-bold text-slate-900">{user.name}</h3>
+                  <span className="text-[10px] font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded border border-emerald-300 font-bold">
+                    {user.credentialId}
+                  </span>
+                  {user.loginType && (
+                    <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded border ${user.loginType === 'fresh' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                      {user.loginType === 'fresh' ? 'Fresh Profile (0 Prior Applications)' : 'Verified User'}
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-slate-600 font-medium mt-0.5">{user.degreeOrDept} &bull; {user.instituteOrComp}</p>
+              </div>
+            </div>
+            <div className="text-left sm:text-right bg-emerald-50/70 border border-emerald-200 px-3.5 py-1.5 rounded-lg">
+              <span className="text-[10px] font-bold uppercase text-emerald-800 block">Verified Practicum</span>
+              <span className="text-xs font-black text-emerald-700">{user.experienceOrHours}</span>
+            </div>
+          </div>
+
+          {/* OFFICIAL SUBPAGE SELECTOR */}
+          <div className="flex flex-wrap gap-2 p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300 w-fit text-xs font-bold">
+            <button
+              onClick={() => setCandidatePage('vacancies')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'vacancies'
+                  ? 'bg-emerald-700 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconBriefcase className="w-4 h-4" />
+              <span>Live Vacancies &amp; Tracker</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${currentPage === 'vacancies' ? 'bg-emerald-900 text-white' : 'bg-slate-300 text-slate-700'}`}>
+                {applications.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setCandidatePage('diagnostic')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'diagnostic'
+                  ? 'bg-emerald-700 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconAward className="w-4 h-4" />
+              <span>Profile Evaluation &amp; Official CV</span>
+            </button>
+            <button
+              onClick={() => setCandidatePage('analytics')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'analytics'
+                  ? 'bg-emerald-700 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconChart className="w-4 h-4" />
+              <span>Skill Analytics &amp; Reports</span>
+            </button>
+          </div>
+
+          {/* SUBPAGE 1: VACANCIES & TRACKER */}
+          {currentPage === 'vacancies' && (
+            <div className="space-y-5">
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                <div className="relative">
+                  <span className="absolute left-3.5 top-2.5 text-slate-400"><IconSearch className="w-4 h-4" /></span>
+                  <input
+                    type="text"
+                    value={keyword}
+                    onChange={(e) => { setKeyword(e.target.value); setPageNumber(1); }}
+                    placeholder="Search by role title, or enterprise (Dabur, Himalaya, Patanjali...)..."
+                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-emerald-600 outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+                  <select
+                    value={selectedStream}
+                    onChange={(e) => { setSelectedStream(e.target.value); setPageNumber(1); }}
+                    className="py-1.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none"
+                  >
+                    <option value="ALL">All 5 Ayush Disciplines</option>
+                    {STREAMS.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+
+                  <select
+                    value={selectedLocation}
+                    onChange={(e) => { setSelectedLocation(e.target.value); setPageNumber(1); }}
+                    className="py-1.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none"
+                  >
+                    <option value="ALL">All Geographic Hubs</option>
+                    {LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
+                  </select>
+
+                  <select
+                    value={selectedType}
+                    onChange={(e) => { setSelectedType(e.target.value); setPageNumber(1); }}
+                    className="py-1.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none"
+                  >
+                    <option value="ALL">All Opportunity Types</option>
+                    <option value="Full-Time Placement">Full-Time Placement</option>
+                    <option value="Clinical Residency">Clinical Residency</option>
+                    <option value="Industrial Internship">Industrial Internship</option>
+                    <option value="Govt Research Fellowship">Govt Research Fellowship</option>
+                  </select>
+
+                  <button
+                    onClick={() => { setRecommendedOnly(!recommendedOnly); setPageNumber(1); }}
+                    className={`py-1.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1 border ${
+                      recommendedOnly 
+                        ? 'bg-amber-500 text-slate-950 font-black border-amber-600 shadow' 
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'
+                    }`}
+                  >
+                    <span>★ Recommended (Best Match)</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {paginatedJobs.map((j) => {
+                  const isApplied = appliedJobs.includes(j.id);
+                  const theme = STREAM_COLORS[j.stream] || STREAM_COLORS['Ayurveda (BAMS)'];
+
+                  return (
+                    <div key={j.id} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between sih-card-hover group">
+                      <div className="relative h-36 w-full overflow-hidden">
+                        <img src={j.img} alt={j.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent"></div>
+                        
+                        <span className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded text-[9px] font-extrabold text-slate-900 uppercase shadow-sm">
+                          {j.comp}
+                        </span>
+
+                        <span className="absolute top-2.5 right-2.5 bg-emerald-700 text-white font-bold text-[10px] px-2 py-0.5 rounded-full shadow flex items-center space-x-1">
+                          <IconCheck className="w-3 h-3 text-amber-300" />
+                          <span>{j.match}% Match</span>
+                        </span>
+
+                        <div className="absolute bottom-2 left-3 right-3">
+                          <h4 className="text-xs font-bold text-white line-clamp-1">{j.title}</h4>
+                          <p className="text-[10px] text-slate-300 flex items-center mt-0.5">
+                            <IconMap className="w-3 h-3 mr-1 text-emerald-400" /> {j.loc}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 flex-1 flex flex-col justify-between">
+                        <div>
+                          <div className="flex flex-wrap gap-1.5 mb-2">
+                            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${theme.bg} ${theme.text} border ${theme.border}`}>
+                              {j.stream}
+                            </span>
+                            <span className="text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-300 px-2 py-0.5 rounded">
+                              {j.stipend}
+                            </span>
+                          </div>
+
+                          <div className="flex flex-wrap gap-1">
+                            {j.skills.map(s => (
+                              <span key={s} className="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded border border-slate-200 font-medium">
+                                {s}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+                          <span className="text-[10px] text-slate-500 font-semibold">{j.hoursReq} hrs req</span>
+                          <button
+                            onClick={() => onApply(j.id)}
+                            disabled={isApplied}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition active:scale-95 ${isApplied ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm'}`}
+                          >
+                            {isApplied ? 'Applied ✓' : 'Apply (APAAR)'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="bg-white p-3 rounded-lg border border-slate-200 flex justify-between items-center text-xs">
+                  <span className="font-semibold text-slate-600">Page {pageNumber} of {totalPages}</span>
+                  <div className="flex space-x-1">
+                    <button
+                      onClick={() => setPageNumber(p => Math.max(1, p - 1))}
+                      disabled={pageNumber === 1}
+                      className="px-2.5 py-1 border rounded bg-white font-medium disabled:opacity-40"
+                    >
+                      Prev
+                    </button>
+                    <button
+                      onClick={() => setPageNumber(p => Math.min(totalPages, p + 1))}
+                      disabled={pageNumber === totalPages}
+                      className="px-2.5 py-1 border rounded bg-white font-medium disabled:opacity-40"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* APPLICATION PIPELINE TRACKER */}
+              <div className="space-y-3 pt-4 border-t border-slate-200">
+                <div className="flex justify-between items-center">
+                  <h4 className="text-xs font-extrabold uppercase text-slate-900 tracking-wide">
+                    Your Active Applications ({applications.length})
+                  </h4>
+                  {applications.length === 0 && (
+                    <span className="text-[11px] text-slate-500 font-semibold italic">Fresh Profile: No job applications submitted yet. Click "Apply" on any role above to get started!</span>
+                  )}
+                </div>
+
+                {applications.length === 0 ? (
+                  <div className="bg-white p-8 rounded-xl border border-dashed border-slate-300 text-center space-y-2">
+                    <IconBriefcase className="w-8 h-8 text-slate-400 mx-auto" />
+                    <h5 className="text-sm font-bold text-slate-800">No Job Applications Lodged</h5>
+                    <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                      As a freshly registered student, your ATS pipeline is empty. Explore the 1,000 indexed vacancies above and apply using your APAAR credentials.
+                    </p>
+                  </div>
+                ) : (
+                  applications.map(app => (
+                    <div key={app.id} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="text-[10px] font-bold uppercase text-sky-900 bg-sky-100 px-2 py-0.5 rounded border border-sky-300">{app.company}</span>
+                          <h4 className="text-sm font-bold text-slate-900 mt-1">{app.role}</h4>
+                          <p className="text-[10px] text-slate-500">Lodged: {app.appliedOn}</p>
+                        </div>
+                        <span className="text-xs font-bold text-sky-800 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">
+                          Step {app.currentStage} of 4: {app.stages[app.currentStage - 1]}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                        {app.stages.map((stg, i) => {
+                          const isDone = i + 1 < app.currentStage;
+                          const isCurrent = i + 1 === app.currentStage;
+                          return (
+                            <div key={stg} className={`p-2 rounded-lg border text-center font-bold ${isCurrent ? 'bg-sky-50 border-sky-600 text-sky-900' : isDone ? 'bg-emerald-50 border-emerald-600 text-emerald-900' : 'bg-slate-50 text-slate-400'}`}>
+                              <p className="text-[9px] uppercase">Stage {i + 1}</p>
+                              <p className="text-[11px] mt-0.5">{stg}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* SUBPAGE 2: PROFILE EVALUATION & OFFICIAL CV */}
+          {currentPage === 'diagnostic' && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 space-y-5">
+                <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                  <div className="flex justify-between items-center border-b pb-3">
+                    <div>
+                      <h3 className="text-sm font-extrabold uppercase text-slate-900 tracking-wide">Automated Profile Evaluation Report</h3>
+                      <p className="text-xs text-slate-500">Benchmark comparison against live pharmaceutical &amp; residency openings</p>
+                    </div>
+                    <span className="text-base font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200">
+                      {user.evaluation ? `${user.evaluation.readinessScore}% Match` : 'Baseline (84%)'}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div className="p-3.5 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-1.5">
+                      <span className="font-bold text-emerald-900 uppercase text-[10px]">Identified Profile Strengths</span>
+                      <ul className="space-y-1 text-slate-700">
+                        {user.evaluation?.strengths?.map((s, i) => (
+                          <li key={i}>&bull; {s}</li>
+                        )) || (
+                          <li>&bull; Clinical hours ({user.experienceOrHours}) meet 94% of hospital vacancies.</li>
+                        )}
+                      </ul>
+                    </div>
+                    <div className="p-3.5 bg-amber-50/70 border border-amber-200 rounded-xl space-y-1.5">
+                      <span className="font-bold text-amber-900 uppercase text-[10px]">Recommended Improvements</span>
+                      <ul className="space-y-1 text-slate-700">
+                        {user.evaluation?.recommendedImprovements?.map((imp, i) => (
+                          <li key={i}>&bull; {imp}</li>
+                        )) || (
+                          <li>&bull; Complete GLP Chromatographic HPTLC Certification.</li>
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5">
+                  <div className="border-b pb-3 flex justify-between items-center">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase text-indigo-900 bg-indigo-100 px-2.5 py-0.5 rounded border border-indigo-300">
+                        Diagnostic Skill Engine
+                      </span>
+                      <h3 className="text-base font-extrabold text-sihNavy mt-1.5">National Ayush Competency Diagnostic Test</h3>
+                    </div>
+                    {testSubmitted && (
+                      <span className="text-base font-black text-emerald-700">{assessmentScore}% Verified</span>
+                    )}
+                  </div>
+
+                  <div className="space-y-4">
+                    {questions.map((q, idx) => (
+                      <div key={q.id} className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2 text-xs">
+                        <div className="flex justify-between items-center font-bold text-slate-800">
+                          <span>Question {idx + 1}: {q.category}</span>
+                          <span className="text-[10px] bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded font-semibold">Awards: {q.skillAwarded}</span>
+                        </div>
+                        <p className="font-semibold text-slate-700">{q.question}</p>
+                        <div className="space-y-1.5 pt-1">
+                          {q.options.map((opt, optIdx) => {
+                            const isSelected = testAnswers[q.id] === optIdx;
+                            return (
+                              <div
+                                key={optIdx}
+                                onClick={() => !testSubmitted && onSelectAnswer(q.id, optIdx)}
+                                className={`p-2 rounded border cursor-pointer transition flex items-center space-x-2 ${isSelected ? 'bg-indigo-700 text-white border-indigo-700 font-semibold' : 'bg-white text-slate-700 hover:bg-slate-100'}`}
+                              >
+                                <span className="w-4 h-4 rounded-full border flex items-center justify-center text-[10px]">{String.fromCharCode(65 + optIdx)}</span>
+                                <span>{opt}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {!testSubmitted ? (
+                    <button
+                      onClick={onSubmitAssessment}
+                      disabled={Object.keys(testAnswers).length < questions.length}
+                      className="px-5 py-2 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs rounded-lg disabled:opacity-40 shadow-sm"
+                    >
+                      Submit Assessment &amp; Certify Skills
+                    </button>
+                  ) : (
+                    <p className="text-xs font-bold text-emerald-700">Test submitted and scores cryptographically written to your APAAR record.</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4 text-xs h-fit">
+                <div className="border-b pb-3 flex justify-between items-center">
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900">National Ayush Curriculum Vitae</h4>
+                    <span className="text-[10px] text-emerald-700 font-bold">APAAR Cryptographically Verified</span>
+                  </div>
+                  <button onClick={() => window.print()} className="px-2.5 py-1 bg-sihNavy text-white rounded text-[11px] font-bold">Print CV</button>
+                </div>
+
+                <div className="space-y-3 text-slate-700">
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Candidate</span>
+                    <p className="font-bold text-slate-900 text-sm">{user.name}</p>
+                    <p className="text-slate-500 font-mono text-[10px]">{user.credentialId}</p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Discipline &amp; College</span>
+                    <p className="font-semibold text-slate-900">{user.degreeOrDept}</p>
+                    <p className="text-slate-500 text-[11px]">{user.instituteOrComp}</p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Clinical Hours Completed</span>
+                    <p className="font-bold text-emerald-800">{user.experienceOrHours}</p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Verified Competencies</span>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {['Nadi Pariksha', 'Marma Protocol', 'Panchakarma', 'EMR Standard'].map(s => (
+                        <span key={s} className="bg-slate-100 text-slate-800 px-2 py-0.5 rounded text-[10px] font-semibold border border-slate-200">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* SUBPAGE 3: STUDENT SKILL ANALYTICS & REPORTS */}
+          {currentPage === 'analytics' && (
+            <div className="space-y-6">
+              <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5">
+                <div className="border-b pb-3 flex justify-between items-center">
+                  <div>
+                    <h3 className="text-sm font-extrabold uppercase text-slate-900 tracking-wide">Scholarly Skill Progression &amp; Benchmark Analytics</h3>
+                    <p className="text-xs text-slate-500">Visualizing clinical rotation mastery and national percentiles across your cohort</p>
+                  </div>
+                  <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded border border-emerald-300">
+                    APAAR Verified Metrics
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                  <div className="space-y-3">
+                    <span className="text-xs font-bold uppercase text-slate-700 block">Clinical Diagnostic Proficiency Breakdown</span>
+                    {[
+                      { skill: 'Nadi Pariksha & Pulse Diagnosis', level: 92, color: 'bg-emerald-600' },
+                      { skill: 'Panchakarma Protocol Compliance', level: 88, color: 'bg-teal-600' },
+                      { skill: 'Phytochemical Standardisation (HPTLC)', level: 76, color: 'bg-sky-600' },
+                      { skill: 'NAMASTE EMR Record Keeping', level: 95, color: 'bg-indigo-600' }
+                    ].map(item => (
+                      <div key={item.skill} className="space-y-1">
+                        <div className="flex justify-between text-xs font-semibold text-slate-700">
+                          <span>{item.skill}</span>
+                          <span className="font-mono">{item.level}% Mastery</span>
+                        </div>
+                        <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                          <div className={`${item.color} h-full rounded-full`} style={{ width: `${item.level}%` }}></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between space-y-4">
+                    <div>
+                      <span className="text-xs font-bold uppercase text-slate-700 block mb-1">National Percentile Standing</span>
+                      <p className="text-xs text-slate-500">Your clinical hours and diagnostic scores place you in the top tier of national BAMS scholars.</p>
+                    </div>
+                    <div className="flex items-center justify-around py-3 bg-white rounded-lg border border-slate-200">
+                      <div className="text-center">
+                        <span className="text-2xl font-black text-emerald-700">96.4th</span>
+                        <span className="text-[10px] font-bold uppercase text-slate-400 block">Percentile Rank</span>
+                      </div>
+                      <div className="h-8 w-px bg-slate-200"></div>
+                      <div className="text-center">
+                        <span className="text-2xl font-black text-indigo-700">1,140</span>
+                        <span className="text-[10px] font-bold uppercase text-slate-400 block">Total Logged Hours</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200 text-center space-y-1">
+                    <span className="text-[11px] font-bold uppercase text-emerald-800">Hospital Rotations</span>
+                    <h4 className="text-xl font-black text-emerald-900">4 / 4 Cleared</h4>
+                    <p className="text-[10px] text-slate-500">All departments audited</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-sky-50/50 border border-sky-200 text-center space-y-1">
+                    <span className="text-[11px] font-bold uppercase text-sky-800 block">Research Papers</span>
+                    <h4 className="text-xl font-black text-sky-900">2 Published</h4>
+                    <p className="text-[10px] text-slate-500">NAMASTE Journal Index</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-200 text-center space-y-1">
+                    <span className="text-[11px] font-bold uppercase text-amber-800 block">Industry Credential</span>
+                    <h4 className="text-xl font-black text-amber-900">Level-1 Expert</h4>
+                    <p className="text-[10px] text-slate-500">Ayush Grid Verified</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // FACULTY WORKSPACE
+    // =========================================================================
+    function FacultyPortalView({ user, opportunities, appliedGrants, proposals, currentPage, setFacultyPage, onApply }) {
+      return (
+        <div className="space-y-6 animate-fadeIn">
+          {/* PROFILE HEADER */}
+          <div className="bg-white p-4 rounded-xl border-l-4 border-indigo-600 border-y border-r border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="text-base font-bold text-slate-900">{user.name}</h3>
+                <span className="text-[10px] font-mono bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded border border-indigo-300 font-bold">
+                  {user.credentialId}
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 font-medium mt-0.5">{user.degreeOrDept} &bull; {user.instituteOrComp}</p>
+            </div>
+            <div className="text-left sm:text-right bg-indigo-50/70 border border-indigo-200 px-3.5 py-1.5 rounded-lg">
+              <span className="text-[10px] font-bold uppercase text-indigo-800 block">Academic Standing</span>
+              <span className="text-xs font-black text-indigo-700">{user.experienceOrHours}</span>
+            </div>
+          </div>
+
+          {/* OFFICIAL SUBPAGE SELECTOR */}
+          <div className="flex flex-wrap gap-2 p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300 w-fit text-xs font-bold">
+            <button
+              onClick={() => setFacultyPage('directory')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'directory'
+                  ? 'bg-indigo-700 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconBuilding className="w-4 h-4" />
+              <span>Sponsored Grants &amp; Sabbaticals</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${currentPage === 'directory' ? 'bg-indigo-900 text-white' : 'bg-slate-300 text-slate-700'}`}>
+                {opportunities.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setFacultyPage('proposals')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'proposals'
+                  ? 'bg-indigo-700 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconDocument className="w-4 h-4" />
+              <span>My Research Proposals</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${currentPage === 'proposals' ? 'bg-indigo-900 text-white' : 'bg-slate-300 text-slate-700'}`}>
+                {proposals.length}
+              </span>
+            </button>
+          </div>
+
+          {/* PAGE 1: DIRECTORY */}
+          {currentPage === 'directory' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {opportunities.map(opp => {
+                const isApplied = appliedGrants.includes(opp.id);
+
+                return (
+                  <div key={opp.id} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between sih-card-hover group">
+                    <div className="relative h-36 w-full overflow-hidden">
+                      <img src={opp.img} alt={opp.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/40 to-transparent"></div>
+                      <span className="absolute top-2.5 left-2.5 text-[9px] font-bold uppercase text-white bg-indigo-700 px-2 py-0.5 rounded">
+                        {opp.company}
+                      </span>
+                      <div className="absolute bottom-2 left-3 right-3 text-white text-xs font-bold line-clamp-1">
+                        {opp.type}
+                      </div>
+                    </div>
+
+                    <div className="p-3.5 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-900 mt-1 line-clamp-2">{opp.title}</h4>
+                        <p className="text-xs text-slate-500 mt-1 line-clamp-2"><strong>Focus:</strong> {opp.focus}</p>
+                        <div className="flex justify-between items-center mt-2.5">
+                          <span className="text-xs font-bold text-indigo-700">{opp.stipend}</span>
+                          <span className="text-[10px] text-slate-500 font-semibold">{opp.seats}</span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => onApply(opp)}
+                        disabled={isApplied}
+                        className={`mt-3 w-full py-2 rounded-lg text-xs font-bold transition shadow-sm ${isApplied ? 'bg-emerald-50 text-emerald-800 border border-emerald-300 font-extrabold cursor-default' : 'bg-indigo-700 hover:bg-indigo-800 text-white'}`}
+                      >
+                        {isApplied ? 'Proposal Lodged ✓' : 'Apply for Fellowship'}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* PAGE 2: PROPOSALS */}
+          {currentPage === 'proposals' && (
+            <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+              <h4 className="text-xs font-bold uppercase text-slate-900 tracking-wider">Your Active Grant Proposals</h4>
+              <div className="divide-y divide-slate-100 text-xs">
+                {proposals.map(p => (
+                  <div key={p.id} className="py-3 flex justify-between items-center">
+                    <div>
+                      <h5 className="font-bold text-slate-900">{p.grant}</h5>
+                      <p className="text-slate-500 text-[11px]">{p.org} &bull; Submitted on {p.submittedOn}</p>
+                    </div>
+                    <span className="px-2.5 py-1 bg-amber-50 text-amber-800 border border-amber-300 rounded font-semibold text-[11px]">
+                      {p.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // INSTITUTION TPO WORKSPACE
+    // =========================================================================
+    function InstitutionTPOView({ user, candidates, signedStudents, currentPage, setInstitutionPage, onVerify, onBulkVerify }) {
+      const pendingQueue = useMemo(() => candidates.slice(0, 8), [candidates]);
+      const remainingCount = pendingQueue.filter(c => !signedStudents.includes(c.id)).length;
+
+      return (
+        <div className="space-y-6 animate-fadeIn">
+          {/* PROFILE HEADER */}
+          <div className="bg-white p-4 rounded-xl border-l-4 border-amber-600 border-y border-r border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="text-base font-bold text-slate-900">{user.name}</h3>
+                <span className="text-[10px] font-mono bg-amber-100 text-amber-800 px-2 py-0.5 rounded border border-amber-300 font-bold">
+                  {user.credentialId}
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 font-medium mt-0.5">{user.degreeOrDept} &bull; {user.instituteOrComp}</p>
+            </div>
+            <div className="text-left sm:text-right bg-amber-50/70 border border-amber-200 px-3.5 py-1.5 rounded-lg">
+              <span className="text-[10px] font-bold uppercase text-amber-800 block">Enrolled Student Cohort</span>
+              <span className="text-xs font-black text-amber-700">{user.experienceOrHours}</span>
+            </div>
+          </div>
+
+          {/* OFFICIAL SUBPAGE SELECTOR */}
+          <div className="flex flex-wrap gap-2 p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300 w-fit text-xs font-bold">
+            <button
+              onClick={() => setInstitutionPage('audit')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'audit'
+                  ? 'bg-amber-700 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconDocument className="w-4 h-4" />
+              <span>Clinical Practicum Audit Desk</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${currentPage === 'audit' ? 'bg-amber-900 text-white' : 'bg-slate-300 text-slate-700'}`}>
+                {remainingCount} Pending
+              </span>
+            </button>
+            <button
+              onClick={() => setInstitutionPage('analytics')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'analytics'
+                  ? 'bg-amber-700 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconChart className="w-4 h-4" />
+              <span>NIRF &amp; NAAC Cohort Analytics</span>
+            </button>
+          </div>
+
+          {/* PAGE 1: PRACTICUM AUDIT */}
+          {currentPage === 'audit' && (
+            <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h4 className="text-xs font-bold uppercase text-slate-900 tracking-wider">Hospital Rotation Logbook Approvals</h4>
+                  <p className="text-[11px] text-slate-500">Authenticating intern rotation hours into the Ayush Grid national ledger</p>
+                </div>
+                <button
+                  onClick={() => onBulkVerify(pendingQueue)}
+                  disabled={remainingCount === 0}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition shadow-sm ${remainingCount === 0 ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-emerald-700 hover:bg-emerald-800 text-white'}`}
+                >
+                  {remainingCount === 0 ? 'All Logbooks Signed ✓' : 'Batch Sign All'}
+                </button>
+              </div>
+
+              <div className="divide-y divide-slate-100">
+                {pendingQueue.map(c => {
+                  const isSigned = signedStudents.includes(c.id);
+
+                  return (
+                    <div key={c.id} className="py-3 flex flex-col sm:flex-row justify-between sm:items-center gap-2 text-xs">
+                      <div>
+                        <span className="font-bold text-slate-900">{c.name}</span>
+                        <span className="text-[11px] text-slate-500 ml-2">({c.stream})</span>
+                        <p className="text-[10px] text-slate-400 font-mono mt-0.5">{c.apaarId}</p>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <span className="text-emerald-800 font-bold bg-emerald-50 border border-emerald-300 px-2 py-0.5 rounded">
+                          {c.hours} Hours Logged
+                        </span>
+                        <button 
+                          onClick={() => onVerify(c.id, c.name)}
+                          disabled={isSigned}
+                          className={`px-3 py-1 rounded-lg text-xs font-bold transition ${isSigned ? 'bg-emerald-100 text-emerald-800 border border-emerald-300 font-black cursor-default' : 'bg-amber-700 hover:bg-amber-800 text-white'}`}
+                        >
+                          {isSigned ? 'Signed ✓' : 'Sign Logbook'}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* PAGE 2: ANALYTICS */}
+          {currentPage === 'analytics' && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="bg-white p-4 rounded-xl border-t-4 border-amber-600 border-x border-b border-slate-200 shadow-sm">
+                  <span className="text-[11px] text-slate-500 font-bold uppercase">NIRF Score Readiness</span>
+                  <h4 className="text-xl font-black text-slate-900 mt-0.5">84.2 / 100</h4>
+                </div>
+                <div className="bg-white p-4 rounded-xl border-t-4 border-emerald-600 border-x border-b border-slate-200 shadow-sm">
+                  <span className="text-[11px] text-slate-500 font-bold uppercase">Active Interns Placed</span>
+                  <h4 className="text-xl font-black text-emerald-800 mt-0.5">864 / 920</h4>
+                </div>
+                <div className="bg-white p-4 rounded-xl border-t-4 border-sky-600 border-x border-b border-slate-200 shadow-sm">
+                  <span className="text-[11px] text-slate-500 font-bold uppercase">Placement Absorption</span>
+                  <h4 className="text-xl font-black text-sky-800 mt-0.5">93.9%</h4>
+                </div>
+                <div className="bg-white p-4 rounded-xl border-t-4 border-indigo-600 border-x border-b border-slate-200 shadow-sm">
+                  <span className="text-[11px] text-slate-500 font-bold uppercase">Total Practicum Audited</span>
+                  <h4 className="text-xl font-black text-indigo-800 mt-0.5">6.8M Hours</h4>
+                </div>
+              </div>
+
+              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm text-xs space-y-2">
+                <h4 className="font-bold text-slate-900 uppercase tracking-wide">Accreditation Summary</h4>
+                <p className="text-slate-600 leading-relaxed">
+                  All 1,420 registered candidates in this institutional cohort maintain active APAAR credentials synchronized with the Ministry of Ayush Grid. Hospital residency affiliations meet statutory requirements set by the National Commission for Indian System of Medicine (NCISM) and National Commission for Homoeopathy (NCH).
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // RECRUITER WORKSPACE
+    // =========================================================================
+    function RecruiterTalentView({ user, candidates, pipeline, dispatchedInvites, currentPage, setRecruiterPage, onDispatch }) {
+      const [filterStream, setFilterStream] = useState('ALL');
+      const [searchQuery, setSearchQuery] = useState('');
+      const [recommendedOnly, setRecommendedOnly] = useState(false);
+      const [pageNumber, setPageNumber] = useState(1);
+      const itemsPerPage = 12;
+
+      const filtered = useMemo(() => {
+        let list = candidates.filter(c => {
+          const matchStream = filterStream === 'ALL' || c.stream === filterStream;
+          const matchSearch = searchQuery === '' || 
+            c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            c.skills.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            c.institute.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchStream && matchSearch;
+        });
+
+        if (recommendedOnly) {
+          list = [...list].sort((a, b) => b.matchScore - a.matchScore);
+        }
+
+        return list;
+      }, [candidates, filterStream, searchQuery, recommendedOnly]);
+
+      const totalPages = Math.ceil(filtered.length / itemsPerPage);
+      const paginatedCandidates = filtered.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage);
+
+      return (
+        <div className="space-y-6 animate-fadeIn">
+          {/* PROFILE HEADER */}
+          <div className="bg-white p-4 rounded-xl border-l-4 border-cyan-600 border-y border-r border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="text-base font-bold text-slate-900">{user.name}</h3>
+                <span className="text-[10px] font-mono bg-cyan-100 text-cyan-900 px-2 py-0.5 rounded border border-cyan-300 font-bold">
+                  {user.credentialId}
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 font-medium mt-0.5">{user.degreeOrDept} &bull; {user.instituteOrComp}</p>
+            </div>
+            <div className="text-left sm:text-right bg-cyan-50/70 border border-cyan-200 px-3.5 py-1.5 rounded-lg">
+              <span className="text-[10px] font-bold uppercase text-cyan-800 block">Corporate Hiring Capacity</span>
+              <span className="text-xs font-black text-cyan-800">{user.experienceOrHours}</span>
+            </div>
+          </div>
+
+          {/* OFFICIAL SUBPAGE SELECTOR */}
+          <div className="flex flex-wrap gap-2 p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300 w-fit text-xs font-bold">
+            <button
+              onClick={() => setRecruiterPage('directory')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'directory'
+                  ? 'bg-cyan-800 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconUsers className="w-4 h-4" />
+              <span>Verified Candidates Registry</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${currentPage === 'directory' ? 'bg-cyan-950 text-white' : 'bg-slate-300 text-slate-700'}`}>
+                {filtered.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setRecruiterPage('pipeline')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'pipeline'
+                  ? 'bg-cyan-800 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconCheck className="w-4 h-4" />
+              <span>Interview Pipeline &amp; Dispatches</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${currentPage === 'pipeline' ? 'bg-cyan-950 text-white' : 'bg-slate-300 text-slate-700'}`}>
+                {pipeline.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setRecruiterPage('analytics')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition ${
+                currentPage === 'analytics'
+                  ? 'bg-cyan-800 text-white shadow-sm font-extrabold'
+                  : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <IconChart className="w-4 h-4" />
+              <span>Talent Analytics &amp; Market Trends</span>
+            </button>
+          </div>
+
+          {/* PAGE 1: DIRECTORY */}
+          {currentPage === 'directory' && (
+            <div className="space-y-4">
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 w-full">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => { setSearchQuery(e.target.value); setPageNumber(1); }}
+                    placeholder="Search candidate name, institute, or skill..."
+                    className="py-1.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none flex-1"
+                  />
+                  <select
+                    value={filterStream}
+                    onChange={(e) => { setFilterStream(e.target.value); setPageNumber(1); }}
+                    className="py-1.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 outline-none"
+                  >
+                    <option value="ALL">All Disciplines</option>
+                    {STREAMS.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+
+                  <button
+                    onClick={() => { setRecommendedOnly(!recommendedOnly); setPageNumber(1); }}
+                    className={`py-1.5 px-3 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 border ${
+                      recommendedOnly 
+                        ? 'bg-amber-500 text-slate-950 font-black border-amber-600 shadow' 
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'
+                    }`}
+                  >
+                    <span>★ Recommended (Best Clinical Benchmark)</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {paginatedCandidates.map(c => {
+                  const theme = STREAM_COLORS[c.stream] || STREAM_COLORS['Ayurveda (BAMS)'];
+                  const isInvited = dispatchedInvites.includes(c.id);
+
+                  return (
+                    <div key={c.id} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between sih-card-hover">
+                      <div>
+                        <div className="flex items-start justify-between gap-3 mb-2.5">
+                          <img src={c.avatar} alt={c.name} className="w-11 h-11 rounded-lg object-cover border border-slate-200" />
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${theme.bg} ${theme.text} border ${theme.border}`}>
+                            {c.stream}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-xs font-bold text-slate-900">{c.name}</h4>
+                          <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded">
+                            {c.matchScore}% Benchmark
+                          </span>
+                        </div>
+                        <p className="text-[10px] font-mono text-slate-500 mt-0.5">{c.apaarId}</p>
+                        <p className="text-[10px] text-slate-500 line-clamp-1 mt-0.5">{c.institute}</p>
+                        <p className="text-xs text-emerald-800 font-bold mt-1.5">{c.hours} Hours Audited &bull; CGPA {c.cgpa}</p>
+
+                        <div className="flex flex-wrap gap-1 mt-2.5">
+                          {c.skills.map(s => (
+                            <span key={s} className="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded border border-slate-200 font-medium">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => onDispatch(c)}
+                        disabled={isInvited}
+                        className={`mt-3 w-full py-1.5 rounded-lg text-xs font-bold transition shadow-sm ${isInvited ? 'bg-emerald-50 text-emerald-800 border border-emerald-300 font-black cursor-default' : 'bg-cyan-800 hover:bg-cyan-900 text-white'}`}
+                      >
+                        {isInvited ? 'Invite Dispatched ✓' : 'Dispatch Interview Call'}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="bg-white p-3 rounded-lg border border-slate-200 flex justify-between items-center text-xs">
+                  <span className="font-semibold text-slate-600">Page {pageNumber} of {totalPages}</span>
+                  <div className="flex space-x-1">
+                    <button
+                      onClick={() => setPageNumber(p => Math.max(1, p - 1))}
+                      disabled={pageNumber === 1}
+                      className="px-2.5 py-1 border rounded bg-white font-medium disabled:opacity-40"
+                    >
+                      Prev
+                    </button>
+                    <button
+                      onClick={() => setPageNumber(p => Math.min(totalPages, p + 1))}
+                      disabled={pageNumber === totalPages}
+                      className="px-2.5 py-1 border rounded bg-white font-medium disabled:opacity-40"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* PAGE 2: INTERVIEW PIPELINE */}
+          {currentPage === 'pipeline' && (
+            <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4 text-xs">
+              <h4 className="font-bold text-slate-900 uppercase tracking-wide">Interview Calls Dispatched via Ayush Samvad ({pipeline.length})</h4>
+              <div className="divide-y divide-slate-100">
+                {pipeline.map(inv => (
+                  <div key={inv.id} className="py-3 flex justify-between items-center">
+                    <div>
+                      <h5 className="font-bold text-slate-900">{inv.candidate}</h5>
+                      <p className="text-slate-500 text-[11px]">{inv.stream} &bull; Transmitted on {inv.sentOn}</p>
+                    </div>
+                    <span className="px-2.5 py-1 bg-emerald-100 text-emerald-900 border border-emerald-300 rounded font-semibold text-[11px]">
+                      {inv.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* PAGE 3: TALENT ANALYTICS & MARKET TRENDS */}
+          {currentPage === 'analytics' && (
+            <div className="space-y-6">
+              <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5">
+                <div className="border-b pb-3 flex justify-between items-center">
+                  <div>
+                    <h3 className="text-sm font-extrabold uppercase text-slate-900 tracking-wide">Corporate Talent Pool &amp; Stream Demand Analytics</h3>
+                    <p className="text-xs text-slate-500">Real-time distribution of candidate availability and average practicum hours across sectors</p>
+                  </div>
+                  <span className="text-xs font-bold text-cyan-800 bg-cyan-100 px-3 py-1 rounded border border-cyan-300">
+                    Live ATS Index
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                  <div className="space-y-3">
+                    <span className="text-xs font-bold uppercase text-slate-700 block">Candidate Supply vs Corporate Quota Demand</span>
+                    {[
+                      { stream: 'Ayurveda (BAMS)', available: 840, required: 920, color: 'bg-emerald-600' },
+                      { stream: 'Homeopathy (BHMS)', available: 520, required: 480, color: 'bg-sky-600' },
+                      { stream: 'Yoga & Naturopathy (BNYS)', available: 390, required: 410, color: 'bg-amber-600' },
+                      { stream: 'Unani (BUMS)', available: 210, required: 250, color: 'bg-teal-600' },
+                      { stream: 'Siddha (BSMS)', available: 160, required: 180, color: 'bg-indigo-600' }
+                    ].map(st => (
+                      <div key={st.stream} className="space-y-1">
+                        <div className="flex justify-between text-xs font-semibold text-slate-700">
+                          <span>{st.stream}</span>
+                          <span className="font-mono">{st.available} Registered &bull; {st.required} Openings</span>
+                        </div>
+                        <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                          <div className={`${st.color} h-full rounded-full`} style={{ width: `${Math.min(100, (st.available / 1000) * 100)}%` }}></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between space-y-4">
+                    <div>
+                      <span className="text-xs font-bold uppercase text-slate-700 block mb-1">Recruitment Velocity &amp; Conversion</span>
+                      <p className="text-xs text-slate-500">Average turnaround time from interview call dispatch to signed residency contract across industrial hubs.</p>
+                    </div>
+                    <div className="flex items-center justify-around py-3 bg-white rounded-lg border border-slate-200">
+                      <div className="text-center">
+                        <span className="text-2xl font-black text-cyan-800">4.2 Days</span>
+                        <span className="text-[10px] font-bold uppercase text-slate-400 block">Avg. Time-to-Offer</span>
+                      </div>
+                      <div className="h-8 w-px bg-slate-200"></div>
+                      <div className="text-center">
+                        <span className="text-2xl font-black text-emerald-700">88.2%</span>
+                        <span className="text-[10px] font-bold uppercase text-slate-400 block">Interview Acceptance</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="p-4 rounded-xl bg-cyan-50/50 border border-cyan-200 text-center space-y-1">
+                    <span className="text-[11px] font-bold uppercase text-cyan-800">Top Hiring Hub</span>
+                    <h4 className="text-xl font-black text-cyan-900">Delhi NCR / Noida</h4>
+                    <p className="text-[10px] text-slate-500">42% of total placements</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-indigo-50/50 border border-indigo-200 text-center space-y-1">
+                    <span className="text-[11px] font-bold uppercase text-indigo-800 block">Average Stipend</span>
+                    <h4 className="text-xl font-black text-indigo-900">₹42,500 / mo</h4>
+                    <p className="text-[10px] text-slate-500">Regulated by MoA Index</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200 text-center space-y-1">
+                    <span className="text-[11px] font-bold uppercase text-emerald-800 block">Compliance Rate</span>
+                    <h4 className="text-xl font-black text-emerald-900">100% APAAR</h4>
+                    <p className="text-[10px] text-slate-500">Zero discrepancies</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
+      );
+    }
+
+    // MOUNT TO DOM
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
